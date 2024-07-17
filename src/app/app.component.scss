@@ -1,0 +1,54 @@
+// Variables de color
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+$background-color: #ffffff;
+
+.navbar {
+  background-color: $primary-color;
+  padding: 1rem;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-brand {
+    color: $light-color;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      color: $light-color;
+    }
+  }
+
+  .navbar-nav {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    .nav-item {
+      margin-left: 1rem;
+
+      .nav-link {
+        color: $light-color;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        &.active {
+          background-color: $dark-color;
+        }
+      }
+    }
+  }
+}

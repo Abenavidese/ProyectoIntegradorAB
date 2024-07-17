@@ -1,0 +1,140 @@
+/* Variables de color */
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$background-color: #f8f9fa;
+$text-color: #343a40;
+$border-color: #ced4da;
+$button-color: #28a745;
+$button-hover-color: darken($button-color, 10%);
+$danger-color: #dc3545;
+$danger-hover-color: darken($danger-color, 10%);
+
+/* Estilos globales */
+body {
+  font-family: Arial, sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: $primary-color;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid $border-color;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+    }
+  }
+
+  .submit-button {
+    background-color: $button-color;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $button-hover-color;
+    }
+  }
+}
+
+.libro-list {
+  margin-top: 3rem;
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    .libro-item {
+      background-color: $background-color;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid $border-color;
+      border-radius: 0.25rem;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      strong {
+        color: $primary-color;
+      }
+
+      img {
+        margin-top: 0.5rem;
+        max-width: 100%;
+        height: auto;
+        border: 1px solid $border-color;
+        border-radius: 0.25rem;
+      }
+
+      .button-group {
+        margin-top: 1rem;
+
+        button {
+          margin-top: 0.5rem;
+          padding: 0.5rem;
+          border: none;
+          border-radius: 0.25rem;
+          cursor: pointer;
+          font-size: 0.875rem;
+          transition: background-color 0.3s ease;
+
+          &:not(:last-child) {
+            margin-right: 0.5rem;
+          }
+
+          &:first-child {
+            background-color: $danger-color;
+            color: white;
+
+            &:hover {
+              background-color: $danger-hover-color;
+            }
+          }
+
+          &:last-child {
+            background-color: $primary-color;
+            color: white;
+
+            &:hover {
+              background-color: darken($primary-color, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+}
