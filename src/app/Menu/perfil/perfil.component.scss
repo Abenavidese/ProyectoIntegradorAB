@@ -1,0 +1,115 @@
+.container {
+    margin-top: 3rem;
+    padding: 1rem;
+    font-family: sans-serif;
+  
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1a202c;
+    }
+  
+    .form {
+      .form-group {
+        margin-bottom: 1.5rem;
+  
+        label {
+          display: block;
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #4a5568;
+          margin-bottom: 0.5rem;
+        }
+  
+        input {
+          width: 100%;
+          padding: 0.75rem;
+          font-size: 1rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.25rem;
+          transition: border-color 0.2s ease-in-out;
+  
+          &:focus {
+            outline: none;
+            border-color: #4299e1;
+          }
+        }
+      }
+  
+      .submit-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        background-color: #2b6cb0;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+  
+        &:hover {
+          background-color: #2c5282;
+        }
+      }
+    }
+  
+    .libro-list {
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 2rem;
+  
+        .libro-item {
+          border: 1px solid #cbd5e0;
+          border-radius: 0.5rem;
+          padding: 1rem;
+          margin-bottom: 1rem;
+  
+          strong {
+            font-weight: 600;
+            color: #2d3748;
+          }
+  
+          img.img-thumbnail {
+            max-width: 200px;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+          }
+  
+          .button-group {
+            margin-top: 1rem;
+  
+            button {
+              padding: 0.5rem 1rem;
+              font-size: 0.875rem;
+              font-weight: 600;
+              color: #fff;
+              border: none;
+              border-radius: 0.25rem;
+              cursor: pointer;
+              transition: background-color 0.2s ease-in-out;
+  
+              &:first-child {
+                background-color: #e53e3e;
+  
+                &:hover {
+                  background-color: #fc8181;
+                }
+              }
+  
+              &:last-child {
+                background-color: #3182ce;
+  
+                &:hover {
+                  background-color: #63b3ed;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

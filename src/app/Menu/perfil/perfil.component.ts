@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { Libro } from '../../Libro.module';
+import { ServiciosService } from '../../service/servicios.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ServiciosService } from '../service/servicios.service';
-import { Libro } from '../Libro.module';
 
 @Component({
-  selector: 'app-libro',
+  selector: 'app-perfil',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
-  templateUrl: './libro.component.html',
-  styleUrl: './libro.component.scss'
+  templateUrl: './perfil.component.html',
+  styleUrl: './perfil.component.scss'
 })
-export class LibroComponent implements OnInit {
+export default class PerfilComponent implements OnInit {
 
   isEditMode: boolean = false; // Para controlar el modo de edición o creación
   libros?: Libro[];
