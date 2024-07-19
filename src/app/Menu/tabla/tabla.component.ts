@@ -58,7 +58,7 @@ export default class TablaComponent implements OnInit {
   }
 
   onSubmit() {
-    // Lógica para manejar el envío del formulario
+  
   }
 
   resetForm() {
