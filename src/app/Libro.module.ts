@@ -16,6 +16,6 @@ export class Libro {
         this.genero = genero;
         this.editorial = editorial;
         this.portada = portada;
-        this.disponibilidad = disponibilidad; // Inicializa disponibilidad
-    }
+        this.disponibilidad=disponibilidad;
+    }
 }

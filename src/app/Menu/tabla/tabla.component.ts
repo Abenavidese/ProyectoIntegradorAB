@@ -13,12 +13,17 @@ import { CommonModule } from '@angular/common';
 })
 export default class TablaComponent implements OnInit {
 
-  usuario: string = ''; // Agrega un campo para el usuario
-
   isEditMode: boolean = false; // Para controlar el modo de edición o creación
   libros?: Libro[];
+  filteredLibros?: Libro[];
+  searchTerm: string = '';
+  selectedCategory: string = '';
+  selectedAuthor: string = '';
+  selectedAvailability: string = '';
+  categorias: string[] = []; // Array de categorías disponibles
+  autores: string[] = []; // Array de autores disponibles
   newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
-  modalSwitch:boolean=false;
+  modalSwitch: boolean = false;
 
   constructor(private libroService: ServiciosService) { }
 
@@ -63,34 +68,7 @@ export default class TablaComponent implements OnInit {
 
   seleccionarLibro(libro: Libro) {
     this.newLibro = { ...libro }; // Clona el objeto para evitar mutaciones directas
-    this.isEditMode = true; // Cambia al modo de edición
-  }
+    this.isEditMode = true; // Cambia al modo de edición
+  }
 
-<<<<<<< HEAD
-
-  pedirPrestado(libroId?: number) {
-    if (libroId === undefined) {
-      alert('ID de libro no válido');
-      return;
-    }
-  
-    this.libroService.pedirPrestado(libroId).subscribe({
-      next: (prestamo) => {
-        alert(`Préstamo realizado con éxito: ${prestamo.prestamoId}`);
-        this.cargarLibros(); // Actualiza la lista de libros
-      },
-      error: (error: any) => console.error('Error al pedir prestado:', error)
-    });
-  }
-  
-  actualizarDisponibilidad(libro: Libro) {
-    libro.disponibilidad = false; // Marcar libro como no disponible
-    this.libroService.actualizarDisponibilidad(libro).subscribe({
-      next: () => this.cargarLibros(), // Actualiza la lista de libros
-      error: (error: any) => console.error('Error al actualizar disponibilidad:', error)
-    });
-  }
 }
-=======
-}
->>>>>>> 6d6d0e0fff36707294c388656b8fb3713dabda74
