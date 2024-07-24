@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-inicio',
@@ -9,8 +12,33 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss'
 })
-export default class InicioComponent {
+export default class InicioComponent implements OnInit {
   isModalOpen = false;
+  token: string | null = null;
+  decodedToken: any = null;
+  username: string = '';
+  roles: string[] = [];
+
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.token = params['token'];
+      if (this.token) {
+        localStorage.setItem('token', this.token);
+        this.authService.setSession(this.token);
+        this.decodedToken = this.authService.decodeToken(this.token);
+        this.username = this.decodedToken.username; // Obtén el nombre de usuario
+        this.roles = this.decodedToken.roles; // Obtén los roles
+        console.log(`Bienvenido ${this.username} - Rol: ${this.roles.join(', ')}`);
+      } else {
+        console.log('No token found.');
+      }
+    });
+  }
 
   openModal() {
     this.isModalOpen = true;

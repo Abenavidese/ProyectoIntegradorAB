@@ -13,9 +13,11 @@ import { CommonModule } from '@angular/common';
 })
 export default class TablaComponent implements OnInit {
 
+  usuario: string = ''; // Agrega un campo para el usuario
+
   isEditMode: boolean = false; // Para controlar el modo de edición o creación
   libros?: Libro[];
-  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '' };
+  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
   modalSwitch:boolean=false;
 
   constructor(private libroService: ServiciosService) { }
@@ -48,7 +50,7 @@ openmoda(){
 
 
   resetForm() {
-    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '' };
+    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
     this.isEditMode = false; // Cambia al modo de creación
   }
 
@@ -57,4 +59,27 @@ openmoda(){
     this.isEditMode = true; // Cambia al modo de edición
   }
 
+
+  pedirPrestado(libroId?: number) {
+    if (libroId === undefined) {
+      alert('ID de libro no válido');
+      return;
+    }
+  
+    this.libroService.pedirPrestado(libroId).subscribe({
+      next: (prestamo) => {
+        alert(`Préstamo realizado con éxito: ${prestamo.prestamoId}`);
+        this.cargarLibros(); // Actualiza la lista de libros
+      },
+      error: (error: any) => console.error('Error al pedir prestado:', error)
+    });
+  }
+  
+  actualizarDisponibilidad(libro: Libro) {
+    libro.disponibilidad = false; // Marcar libro como no disponible
+    this.libroService.actualizarDisponibilidad(libro).subscribe({
+      next: () => this.cargarLibros(), // Actualiza la lista de libros
+      error: (error: any) => console.error('Error al actualizar disponibilidad:', error)
+    });
+  }
 }
