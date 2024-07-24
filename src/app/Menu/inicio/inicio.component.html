@@ -56,7 +56,29 @@
                       <a href="#">Don quijote de la  Mancha</a>
                   </h3>
                   <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">"Don Quijote de la Mancha" de Miguel de Cervantes narra las aventuras de Alonso Quijano, quien se convierte en el caballero Don Quijote y, junto a su escudero Sancho Panza, recorre España enfrentando desafíos cómicos. Es una sátira de los romances de caballería y una obra maestra literaria.</p>
-                
+                <!-- Modal button primer libro-->
+<button (click)="openModal()" class="flex items-center justify-center p-2 text-gray-500 hover:text-gray-900 dark:hover:text-white">
+    <span class="material-symbols-outlined">
+      menu
+    </span>
+  </button>
+  
+  <!-- Modal primer libro -->
+  <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg dark:bg-gray-800 max-w-lg mx-auto p-6 relative">
+      <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-900 dark:hover:text-white" (click)="closeModal()">
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Harry Potter</h2>
+      <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400"><strong>Título:</strong> Harry Potter y la piedra filosofal</p>
+      <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400"><strong>Autor:</strong> J.K. Rowling</p>
+      <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400"><strong>Precio:</strong> 35 $</p>
+      <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400"><strong>Género:</strong> Fantasía</p>
+      <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400"><strong>Editorial:</strong> Bloomsbury</p>
+    </div>
+  </div>
               </div>
           </div> 
           <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">

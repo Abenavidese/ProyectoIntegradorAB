@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './tabla.component.html',
-  styleUrl: './tabla.component.scss'
+  styleUrls: ['./tabla.component.scss']
 })
 export default class TablaComponent implements OnInit {
 
@@ -25,29 +25,36 @@ export default class TablaComponent implements OnInit {
   ngOnInit(): void {
     this.cargarLibros();
   }
-openmoda(){
 
-  this.modalSwitch=true;
-}
+  openmoda() {
+    this.modalSwitch = true;
+  }
+
   cargarLibros() {
     this.libroService.obtenerLibros().subscribe({
-      next: (data: Libro[]) => this.libros = data,
-      error: (error: any) => console.error('Error al eliminar cliente:', error)
-
+      next: (data: Libro[]) => {
+        this.libros = data;
+        this.filteredLibros = data;
+        this.categorias = [...new Set(data.map(libro => libro.genero))]; // Obtiene las categorías únicas
+        this.autores = [...new Set(data.map(libro => libro.autor))]; // Obtiene los autores únicos
+      },
+      error: (error: any) => console.error('Error al cargar libros:', error)
     });
   }
 
-  
-
-    
-  
-  
-
-  onSubmit() {
-   
+  filtrarLibros() {
+    this.filteredLibros = this.libros?.filter(libro => {
+      const matchesTitle = libro.titulo.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesCategory = this.selectedCategory ? libro.genero === this.selectedCategory : true;
+      const matchesAuthor = this.selectedAuthor ? libro.autor === this.selectedAuthor : true;
+      const matchesAvailability = this.selectedAvailability ? (this.selectedAvailability === 'disponible' ? libro.disponibilidad : !libro.disponibilidad) : true;
+      return matchesTitle && matchesCategory && matchesAuthor && matchesAvailability;
+    });
   }
 
-
+  onSubmit() {
+  
+  }
 
   resetForm() {
     this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
@@ -59,6 +66,7 @@ openmoda(){
     this.isEditMode = true; // Cambia al modo de edición
   }
 
+<<<<<<< HEAD
 
   pedirPrestado(libroId?: number) {
     if (libroId === undefined) {
@@ -83,3 +91,6 @@ openmoda(){
     });
   }
 }
+=======
+}
+>>>>>>> 6d6d0e0fff36707294c388656b8fb3713dabda74
