@@ -21,6 +21,10 @@ export const routes: Routes = [
         path: 'tabla',
         loadComponent: () => import('./Menu/tabla/tabla.component')
       },
+{
+      path: 'prestamos',
+      loadComponent: () => import('./Menu/prestamo/prestamos/prestamos.component')
+    },
   
 
     ]

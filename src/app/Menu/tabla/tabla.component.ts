@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiciosService } from '../../service/servicios.service';
-import { Libro } from '../../Libro.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
+import { Libro } from '../../Libro.module';
 
 @Component({
   selector: 'app-tabla',
@@ -13,25 +15,25 @@ import { CommonModule } from '@angular/common';
 })
 export default class TablaComponent implements OnInit {
 
-  isEditMode: boolean = false; // Para controlar el modo de edición o creación
+  isEditMode: boolean = false;
   libros?: Libro[];
   filteredLibros?: Libro[];
   searchTerm: string = '';
   selectedCategory: string = '';
   selectedAuthor: string = '';
   selectedAvailability: string = '';
-  categorias: string[] = []; // Array de categorías disponibles
-  autores: string[] = []; // Array de autores disponibles
+  categorias: string[] = [];
+  autores: string[] = [];
   newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
   modalSwitch: boolean = false;
 
-  constructor(private libroService: ServiciosService) { }
+  constructor(private libroService: ServiciosService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.cargarLibros();
   }
 
-  openmoda() {
+  openModal() {
     this.modalSwitch = true;
   }
 
@@ -40,8 +42,8 @@ export default class TablaComponent implements OnInit {
       next: (data: Libro[]) => {
         this.libros = data;
         this.filteredLibros = data;
-        this.categorias = [...new Set(data.map(libro => libro.genero))]; // Obtiene las categorías únicas
-        this.autores = [...new Set(data.map(libro => libro.autor))]; // Obtiene los autores únicos
+        this.categorias = [...new Set(data.map(libro => libro.genero))];
+        this.autores = [...new Set(data.map(libro => libro.autor))];
       },
       error: (error: any) => console.error('Error al cargar libros:', error)
     });
@@ -58,17 +60,20 @@ export default class TablaComponent implements OnInit {
   }
 
   onSubmit() {
-  
+    // Implementa la lógica para el formulario si es necesario
   }
 
   resetForm() {
     this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
-    this.isEditMode = false; // Cambia al modo de creación
+    this.isEditMode = false;
   }
 
-  seleccionarLibro(libro: Libro) {
-    this.newLibro = { ...libro }; // Clona el objeto para evitar mutaciones directas
-    this.isEditMode = true; // Cambia al modo de edición
-  }
-
+  pedirLibro(libroId: number | undefined) {
+    if (libroId !== undefined) {
+      this.authService.setLibroId(libroId);
+      this.router.navigate(['/prestamos']); 
+    } else {
+      console.error('No se encontró el id');
+    }
+  }
 }
