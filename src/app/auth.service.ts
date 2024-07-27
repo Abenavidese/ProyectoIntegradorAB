@@ -57,9 +57,11 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('username'); // Eliminar el nombre de usuario del localStorage si se guardó
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']); // Redirige al login después de cerrar sesión
   }
+  
 
   public isLoggedIn(): boolean {
     return !!localStorage.getItem('token');

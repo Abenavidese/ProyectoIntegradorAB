@@ -19,10 +19,16 @@ export const routes: Routes = [
       },
       {
         path: 'tabla',
-        loadComponent: () => import('./Menu/tabla/tabla.component')
+        loadComponent: () => import('./Menu/tabla/tabla.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
       },
-  
-
+      {
+        path: 'prestamos',
+        loadComponent: () => import('./Menu/prestamos/prestamos.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
+      },
     ]
   }
 ];

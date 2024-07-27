@@ -8,8 +8,8 @@ import { Prestamo } from '../Prestamo.module';
 })
 export class ServiciosService {
 
-  private apiUrl = 'http://localhost:8080/library/rs/libros'; // Reemplaza con la URL correcta de tu API
-  private apiUrlpre = 'http://localhost:8080/library/rs/prestamos';
+  private apiUrl = 'http://localhost:8080/biblioteca/rs/libros'; // Reemplaza con la URL correcta de tu API
+  private apiUrlpre = 'http://localhost:8080/biblioteca/rs/prestamos';
 
 
   constructor(private http: HttpClient) { }
