@@ -29,6 +29,11 @@ export const routes: Routes = [
         canActivate: [RoleGuard],
         data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
       },
+
+      {
+        path: 'prestamos',
+        loadComponent: () => import('./Menu/prestamo/prestamos/prestamos.component')
+      },
     ]
   }
 ];

@@ -9,6 +9,12 @@ import { Libro } from '../Libro.module';
 export class ServiciosService {
 
 
+  private apiUrl = 'http://localhost:8080/biblioteca/rs/libros'; 
+
+
+
+
+
   constructor(private http: HttpClient) { }
 
   obtenerLibros(): Observable<Libro[]> {
