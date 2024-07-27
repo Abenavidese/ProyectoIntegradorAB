@@ -12,6 +12,8 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  private _libroId: number | null = null
+
   private baseUrl = 'http://localhost:8080/library/api/auth'; // URL del servicio de autenticación
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public currentUser: Observable<any> = this.currentUserSubject.asObservable();
@@ -75,5 +77,9 @@ export class AuthService {
   public hasRole(role: string): boolean {
     const roles = this.getUserRoles();
     return roles.includes(role);
+  }
+
+  setLibroId(libroId: number){
+    this._libroId = libroId
   }
 }

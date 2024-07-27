@@ -46,7 +46,7 @@
               <img [src]="libro.portada" alt="Portada del libro" class="max-w-full h-auto rounded">
             </div>
             <div class="button-group flex space-x-2">
-              <button (click)="seleccionarLibro(libro)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Pedir prestado</button>
+              <button (click)="pedirLibro(libro.libroId)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Pedir prestado</button>
             </div>
           </li>
         </ul>
