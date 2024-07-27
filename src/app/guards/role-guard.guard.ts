@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable
  } from '@angular/core';
+ 
  export const RoleGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const authService = inject(AuthService);
   const router = inject(Router);
@@ -18,7 +19,9 @@ import { Injectable
     return true;
   } else {
     console.warn('Access denied. User does not have required roles:', expectedRoles); // Log access denied
-    router.navigate(['/inicio']);
+    
+    // Redirige a la página de login si no tiene los roles necesarios
+    window.location.href = 'http://localhost:8080/biblioteca/login.xhtml';
     return false;
   }
 };

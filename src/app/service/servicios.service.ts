@@ -7,7 +7,7 @@ import { Libro } from '../Libro.module';
   providedIn: 'root'
 })
 export class ServiciosService {
-  private apiUrl = 'http://localhost:8080/biblioteca/rs/libros'; 
+
 
   constructor(private http: HttpClient) { }
 
