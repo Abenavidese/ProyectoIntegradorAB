@@ -1,0 +1,21 @@
+<div class="container mx-auto p-5 bg-gray-50 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h2 class="text-xl font-bold mb-4">Historial de Préstamos</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Libro</th>
+          <th>Usuario</th>
+          <th>Fecha de Préstamo</th>
+          <th>Fecha de Devolución</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prestamo of prestamos">
+          <td>{{ prestamo.libro.titulo }}</td>
+          <td>{{ prestamo.usuario.username }}</td>
+          <td>{{ prestamo.fechaPrestamo | date }}</td>
+          <td>{{ prestamo.fechaDevolucion | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

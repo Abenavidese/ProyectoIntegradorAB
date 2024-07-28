@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
+import { Prestamo } from '../../Prestamo.module';
 
 @Component({
   selector: 'app-inicio',
@@ -18,6 +19,7 @@ export default class InicioComponent implements OnInit {
   decodedToken: any = null;
   username: string = '';
   roles: string[] = [];
+  pendingReturns: Prestamo[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +36,16 @@ export default class InicioComponent implements OnInit {
         this.username = this.decodedToken.username; // Obtén el nombre de usuario
         this.roles = this.decodedToken.roles; // Obtén los roles
         console.log(`Bienvenido ${this.username} - Rol: ${this.roles.join(', ')}`);
+        
+        // Obtener préstamos pendientes
+        this.authService.getPendingReturns(this.username).subscribe({
+          next: (data: Prestamo[]) => {
+            this.pendingReturns = data;
+          },
+          error: (error) => {
+            console.error('Error al obtener préstamos pendientes:', error);
+          }
+        });
       } else {
         console.log('No token found.');
       }

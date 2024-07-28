@@ -34,6 +34,12 @@ export const routes: Routes = [
         path: 'prestamos',
         loadComponent: () => import('./Menu/prestamo/prestamos/prestamos.component')
       },
+      
+
+      {
+        path: 'historial',
+        loadComponent: () => import('./Menu/historial/historial.component')
+      }
     ]
   }
 ];

@@ -13,8 +13,6 @@ export class ServiciosService {
 
 
 
-
-
   constructor(private http: HttpClient) { }
 
   obtenerLibros(): Observable<Libro[]> {
@@ -36,4 +34,6 @@ export class ServiciosService {
   libroPorId(id: number){
     return this.http.get<Libro[]>(`${this.apiUrl}/${id}`)
   }
+
+  
 }

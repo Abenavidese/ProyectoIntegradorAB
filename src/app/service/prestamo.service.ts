@@ -8,20 +8,23 @@ import { Libro } from '../Libro.module';
   providedIn: 'root'
 })
 export class PrestamoService {
-  private baseUrl = 'http://localhost:8080/biblioteca/rs';
+  private apiUrl = 'http://localhost:8080/biblioteca/rs/prestamos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  obtenerPrestamos(): Observable<Prestamo[]> {
+    return this.http.get<Prestamo[]>(this.apiUrl);
+  }
+
+  guardarPrestamo(prestamo: Prestamo): Observable<Prestamo> {
+    return this.http.post<Prestamo>(this.apiUrl, prestamo);
+  }
 
   obtenerLibrosDisponibles(): Observable<Libro[]> {
-    return this.http.get<Libro[]>(`${this.baseUrl}/libros`);
+    return this.http.get<Libro[]>('http://localhost:8080/biblioteca/rs/libros');
   }
 
-  realizarPrestamo(prestamo: Prestamo): Observable<any> {
-    return this.http.post(`${this.baseUrl}/prestamos`, prestamo, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+  realizarPrestamo(prestamo: Prestamo): Observable<Prestamo> {
+    return this.http.post<Prestamo>(this.apiUrl, prestamo);
   }
-
 }
