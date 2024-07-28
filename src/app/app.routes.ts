@@ -32,7 +32,7 @@ export const routes: Routes = [
 
       {
         path: 'prestamos',
-        loadComponent: () => import('./Menu/prestamo/prestamos/prestamos.component')
+        loadComponent: () => import('./Menu/prestamos/prestamos.component')
       },
       
 

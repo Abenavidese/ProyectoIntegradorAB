@@ -10,15 +10,12 @@ import { ServiciosService } from '../../service/servicios.service';
 import { Usuario } from '../../Usuario.module';
 import { UserService } from '../../service/user.service';
 
-
-
-
 @Component({
   selector: 'app-prestamos',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './prestamos.component.html',
-  styleUrl: './prestamos.component.scss'
+  styleUrls: ['./prestamos.component.scss']
 })
 export default class PrestamosComponent implements OnInit {
   prestamos?: Prestamo[];
@@ -52,6 +49,7 @@ export default class PrestamosComponent implements OnInit {
 
   successMessage: string = '';
   showSuccess: boolean = false;
+  reminders: string[] = [];
 
   constructor(
     private authService: AuthService,
@@ -66,6 +64,7 @@ export default class PrestamosComponent implements OnInit {
     this.libroId = this.authService.getLibroId();
     this.cargarUsuarios();
     this.cargarLibros();
+    this.cargarPrestamosActivos();
   }
 
   cargarUsuarios(): void {
@@ -88,6 +87,18 @@ export default class PrestamosComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar libros:', error);
+      }
+    });
+  }
+
+  cargarPrestamosActivos(): void {
+    this.prestamoService.obtenerPrestamosActivos().subscribe({
+      next: (data: Prestamo[]) => {
+        this.prestamos = data.filter(prestamo => prestamo.usuario.username === this.username);
+        this.generarRecordatorios();
+      },
+      error: (error) => {
+        console.error('Error al cargar préstamos activos:', error);
       }
     });
   }
@@ -162,6 +173,7 @@ export default class PrestamosComponent implements OnInit {
             }
             this.resetForm();
             this.showSuccessMessage(`El libro "${this.libroActual?.titulo}" ha sido prestado exitosamente. Fecha de Préstamo: ${this.newPrestamo.fechaPrestamo}, Fecha de Devolución: ${this.newPrestamo.fechaDevolucion}`);
+            this.cargarPrestamosActivos();  // Volver a cargar los préstamos activos después de crear uno nuevo
           },
           error: (error) => {
             console.error('Error al registrar el préstamo:', error);
@@ -244,6 +256,16 @@ export default class PrestamosComponent implements OnInit {
       this.showSuccess = false;
       this.successMessage = '';
     }, 5000); // Ocultar el mensaje después de 5 segundos
+  }
+
+  generarRecordatorios(): void {
+    const now = new Date();
+    this.reminders = this.prestamos
+      ?.filter(prestamo => new Date(prestamo.fechaDevolucion) > now)
+      .map(prestamo => {
+        const diasRestantes = Math.ceil((new Date(prestamo.fechaDevolucion).getTime() - now.getTime()) / (1000 * 3600 * 24));
+        return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
+      }) || [];
   }
 
   logout() {

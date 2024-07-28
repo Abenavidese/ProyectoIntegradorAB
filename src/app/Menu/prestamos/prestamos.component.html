@@ -1,27 +1,29 @@
 <div class="container mx-auto p-5 bg-gray-50 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-    <h2 class="text-xl font-bold mb-4">Registrar Préstamo</h2>
-    <p>Usted está pidiendo el libro como <strong>{{ usuarioActual?.username }}</strong></p>
-    <form (ngSubmit)="createPrestamo()">
-      <div class="mb-4">
-        <label for="fechaPrestamo" class="block text-gray-700 dark:text-gray-200">Fecha de Préstamo:</label>
-        <input type="date" id="fechaPrestamo" name="fechaPrestamo" class="w-full p-2 border rounded" required>
-      </div>
-      <div class="mb-4">
-        <label for="fechaDevolucion" class="block text-gray-700 dark:text-gray-200">Fecha de Devolución:</label>
-        <input type="date" id="fechaDevolucion" name="fechaDevolucion" class="w-full p-2 border rounded" required>
-      </div>
-      <div class="mb-4">
-        <label for="libro" class="block text-gray-700 dark:text-gray-200">Selecciona un Libro:</label>
-        <select (change)="onLibroChange($event)" class="w-full p-2 border rounded" required>
-          <option *ngFor="let libro of libros" [value]="libro.libroId">{{ libro.titulo }}</option>
-        </select>
-      </div>
-      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Registrar Préstamo</button>
-    </form>
-    <button (click)="cancelar()" class="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Cancelar</button>
-  
-    <div *ngIf="showSuccess" class="mt-4 p-4 bg-green-200 text-green-800 rounded">
-      {{ successMessage }}
+  <h2 class="text-xl font-bold mb-4">Registrar Préstamo</h2>
+  <p>Usted está pidiendo el libro como <strong>{{ usuarioActual?.username }}</strong></p>
+  <form (ngSubmit)="createPrestamo()">
+    <div class="mb-4">
+      <label for="fechaPrestamo" class="block text-gray-700 dark:text-gray-200">Fecha de Préstamo:</label>
+      <input type="date" id="fechaPrestamo" name="fechaPrestamo" class="w-full p-2 border rounded" required>
     </div>
+    <div class="mb-4">
+      <label for="fechaDevolucion" class="block text-gray-700 dark:text-gray-200">Fecha de Devolución:</label>
+      <input type="date" id="fechaDevolucion" name="fechaDevolucion" class="w-full p-2 border rounded" required>
+    </div>
+    <div class="mb-4">
+      <label for="libro" class="block text-gray-700 dark:text-gray-200">Selecciona un Libro:</label>
+      <select (change)="onLibroChange($event)" class="w-full p-2 border rounded" required>
+        <option *ngFor="let libro of libros" [value]="libro.libroId">{{ libro.titulo }}</option>
+      </select>
+    </div>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Registrar Préstamo</button>
+  </form>
+  <button (click)="cancelar()" class="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Cancelar</button>
+
+  <div *ngIf="showSuccess" class="mt-4 p-4 bg-green-200 text-green-800 rounded">
+    {{ successMessage }}
   </div>
-  
+  <div *ngIf="reminders.length > 0" class="mt-4 p-4 bg-yellow-200 text-yellow-800 rounded">
+    <p *ngFor="let reminder of reminders">{{ reminder }}</p>
+  </div>
+</div>
