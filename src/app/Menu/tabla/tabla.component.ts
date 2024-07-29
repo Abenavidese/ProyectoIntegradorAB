@@ -24,7 +24,7 @@ export default class TablaComponent implements OnInit {
   selectedAvailability: string = '';
   categorias: string[] = [];
   autores: string[] = [];
-  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
+  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado:true };
   modalSwitch: boolean = false;
 
   constructor(private libroService: ServiciosService, private authService: AuthService, private router: Router) { }
@@ -64,7 +64,7 @@ export default class TablaComponent implements OnInit {
   }
 
   resetForm() {
-    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
+    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado:true };
     this.isEditMode = false;
   }
 

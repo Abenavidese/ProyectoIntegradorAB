@@ -15,7 +15,7 @@ export default class PerfilComponent implements OnInit {
 
   isEditMode: boolean = false; // Para controlar el modo de edición o creación
   libros?: Libro[];
-  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
+  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
   modalSwitch:boolean=false;
 
   constructor(private libroService: ServiciosService) { }
@@ -53,7 +53,7 @@ openmoda(){
   createLibro(): void {
     this.libroService.guardarLibro(this.newLibro).subscribe((libro: Libro) => {
       this.libros?.push(libro);
-      this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
+      this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
     });
   }
 
@@ -77,7 +77,7 @@ openmoda(){
   }
 
   resetForm() {
-    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true };
+    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
     this.isEditMode = false; // Cambia al modo de creación
   }
 

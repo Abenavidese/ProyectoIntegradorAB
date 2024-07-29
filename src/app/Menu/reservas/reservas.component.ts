@@ -3,31 +3,30 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth.service';
-import { Prestamo } from '../../Prestamo.module';
-import { PrestamoService } from '../../service/prestamo.service';
+import { Reserva } from '../../Reserva.module';
+import { ReservaService } from '../../service/reserva.service';
 import { Libro } from '../../Libro.module';
 import { ServiciosService } from '../../service/servicios.service';
 import { Usuario } from '../../Usuario.module';
 import { UserService } from '../../service/user.service';
 
 @Component({
-  selector: 'app-prestamos',
+  selector: 'app-reservas',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './prestamos.component.html',
-  styleUrls: ['./prestamos.component.scss']
+  templateUrl: './reservas.component.html',
+  styleUrls: ['./reservas.component.scss']
 })
-export default class PrestamosComponent implements OnInit {
-  prestamos?: Prestamo[];
+export default class ReservasComponent implements OnInit {
+  reservas?: Reserva[];
   username: string | null = null;
   usuarios: Usuario[] = [];
   libros: Libro[] = [];
   libroId: number | null = null;
   usuarioActual: Usuario | null = null;
   libroActual: Libro | null = null;
-  newPrestamo: Prestamo = {
-    fechaPrestamo: '',
-    fechaDevolucion: '',
+  newReserva: Reserva = {
+    fechaReserva: '',
     libro: {
       libroId: 0,
       titulo: '',
@@ -45,7 +44,8 @@ export default class PrestamosComponent implements OnInit {
       password: '',
       email: '',
       role: ''
-    }
+    },
+    reservado: true
   };
 
   successMessage: string = '';
@@ -56,7 +56,7 @@ export default class PrestamosComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private serviciosService: ServiciosService,
-    private prestamoService: PrestamoService,
+    private reservaService: ReservaService,
     private router: Router
   ) {}
 
@@ -65,7 +65,7 @@ export default class PrestamosComponent implements OnInit {
     this.libroId = this.authService.getLibroId();
     this.cargarUsuarios();
     this.cargarLibros();
-    this.cargarPrestamosActivos();
+    this.cargarReservasActivas();
   }
 
   cargarUsuarios(): void {
@@ -81,7 +81,7 @@ export default class PrestamosComponent implements OnInit {
   }
 
   cargarLibros(): void {
-    this.prestamoService.obtenerLibrosDisponibles().subscribe({
+    this.reservaService.obtenerLibrosDisponibles().subscribe({
       next: (data: Libro[]) => {
         this.libros = data.filter(libro => libro.disponibilidad);
         this.filtrarLibroActual();
@@ -92,14 +92,14 @@ export default class PrestamosComponent implements OnInit {
     });
   }
 
-  cargarPrestamosActivos(): void {
-    this.prestamoService.obtenerPrestamosActivos().subscribe({
-      next: (data: Prestamo[]) => {
-        this.prestamos = data.filter(prestamo => prestamo.usuario.username === this.username);
+  cargarReservasActivas(): void {
+    this.reservaService.obtenerReservasActivas().subscribe({
+      next: (data: Reserva[]) => {
+        this.reservas = data.filter(reserva => reserva.usuario.username === this.username);
         this.generarRecordatorios();
       },
       error: (error) => {
-        console.error('Error al cargar préstamos activos:', error);
+        console.error('Error al cargar reservas activas:', error);
       }
     });
   }
@@ -131,57 +131,52 @@ export default class PrestamosComponent implements OnInit {
     this.libroActual = this.libros.find(libro => libro.libroId === libroId) || null;
   }
 
-  createPrestamo(): void {
+  createReserva(): void {
     if (this.usuarioActual && this.libroActual) {
-      this.newPrestamo.usuario = this.usuarioActual;
-      this.newPrestamo.libro = this.libroActual;
+      this.newReserva.usuario = this.usuarioActual;
+      this.newReserva.libro = this.libroActual;
 
-      const fechaPrestamoInput = (document.getElementById('fechaPrestamo') as HTMLInputElement).value;
-      const fechaDevolucionInput = (document.getElementById('fechaDevolucion') as HTMLInputElement).value;
+      const fechaReservaInput = (document.getElementById('fechaReserva') as HTMLInputElement).value;
+      
+      if (fechaReservaInput) {
+        const fechaReserva = new Date(fechaReservaInput);
 
-      if (fechaPrestamoInput && fechaDevolucionInput) {
-        const fechaPrestamo = new Date(fechaPrestamoInput);
-        const fechaDevolucion = new Date(fechaDevolucionInput);
-
-        const offsetMs = fechaPrestamo.getTimezoneOffset() * 60 * 1000;
-        const fechaPrestamoLocal = new Date(fechaPrestamo.getTime() + offsetMs);
-        const fechaDevolucionLocal = new Date(fechaDevolucion.getTime() + offsetMs);
+        const offsetMs = fechaReserva.getTimezoneOffset() * 60 * 1000;
+        const fechaReservaLocal = new Date(fechaReserva.getTime() + offsetMs);
 
         const now = new Date();
         const currentHours = now.getHours();
         const currentMinutes = now.getMinutes();
         const currentSeconds = now.getSeconds();
 
-        fechaPrestamoLocal.setHours(currentHours, currentMinutes, currentSeconds, 0);
-        fechaDevolucionLocal.setHours(currentHours, currentMinutes, currentSeconds, 0);
+        fechaReservaLocal.setHours(currentHours, currentMinutes, currentSeconds, 0);
 
-        this.newPrestamo.fechaPrestamo = fechaPrestamoLocal.toISOString();
-        this.newPrestamo.fechaDevolucion = fechaDevolucionLocal.toISOString();
+        this.newReserva.fechaReserva = fechaReservaLocal.toISOString();
 
-        const prestamo: Prestamo = {
-          fechaPrestamo: this.newPrestamo.fechaPrestamo,
-          fechaDevolucion: this.newPrestamo.fechaDevolucion,
-          libro: this.newPrestamo.libro,
-          usuario: this.newPrestamo.usuario
+        const reserva: Reserva = {
+          fechaReserva: this.newReserva.fechaReserva,
+          libro: this.newReserva.libro,
+          usuario: this.newReserva.usuario,
+          reservado: true
         };
 
-        this.prestamoService.realizarPrestamo(prestamo).subscribe({
-          next: (prestamo: Prestamo) => {
-            if (!this.prestamos) this.prestamos = [];
-            this.prestamos.push(prestamo);
+        this.reservaService.realizarReserva(reserva).subscribe({
+          next: (reserva: Reserva) => {
+            if (!this.reservas) this.reservas = [];
+            this.reservas.push(reserva);
             if (this.libroActual && this.libroActual.libroId !== undefined) {
               this.actualizarDisponibilidadLibro(this.libroActual.libroId, false);
             }
             this.resetForm();
-            this.showSuccessMessage(`El libro "${this.libroActual?.titulo}" ha sido prestado exitosamente. Fecha de Préstamo: ${this.newPrestamo.fechaPrestamo}, Fecha de Devolución: ${this.newPrestamo.fechaDevolucion}`);
-            this.cargarPrestamosActivos();  // Volver a cargar los préstamos activos después de crear uno nuevo
+            this.showSuccessMessage(`El libro "${this.libroActual?.titulo}" ha sido reservado exitosamente. Fecha de Reserva: ${this.newReserva.fechaReserva}`);
+            this.cargarReservasActivas();  // Volver a cargar las reservas activas después de crear una nueva
           },
           error: (error) => {
-            console.error('Error al registrar el préstamo:', error);
+            console.error('Error al registrar la reserva:', error);
           }
         });
       } else {
-        console.error('Fecha de préstamo o devolución no proporcionada.');
+        console.error('Fecha de reserva no proporcionada.');
       }
     } else {
       if (!this.usuarioActual) {
@@ -192,11 +187,6 @@ export default class PrestamosComponent implements OnInit {
       }
     }
   }
-
-
-  
-
-  
 
   actualizarDisponibilidadLibro(libroId: number, disponibilidad: boolean): void {
     const libro = this.libros.find(libro => libro.libroId === libroId);
@@ -210,10 +200,10 @@ export default class PrestamosComponent implements OnInit {
       });
     }
   }
+
   resetForm(): void {
-    this.newPrestamo = {
-      fechaPrestamo: '',
-      fechaDevolucion: '',
+    this.newReserva = {
+      fechaReserva: '',
       libro: {
         libroId: 0,
         titulo: '',
@@ -231,28 +221,22 @@ export default class PrestamosComponent implements OnInit {
         password: '',
         email: '',
         role: ''
-      }
+      },
+      reservado: true
     };
   }
 
-  cancelar(): void {
-    const libroId = this.authService.getLibroId();
-    const disponibilidadOriginal = this.authService.getDisponibilidad();
-    if (libroId !== null && disponibilidadOriginal !== null) {
-      const libro = this.libros.find(libro => libro.libroId === libroId);
-      if (libro) {
-        libro.disponibilidad = disponibilidadOriginal;
-        this.serviciosService.actualizarLibro(libro).subscribe({
-          next: () => {
-            console.log('Disponibilidad del libro restaurada:', libro);
-            this.router.navigate(['/libros']); // Redirigir al componente Libros
-          },
-          error: (error) => console.error('Error al restaurar disponibilidad del libro:', error)
-        });
-      } else {
-        console.error('Libro no encontrado para el ID:', libroId);
+  cancelarReserva(reservaId: number): void {
+    this.reservaService.cancelarReserva(reservaId).subscribe({
+      next: () => {
+        console.log(`Reserva con ID ${reservaId} cancelada.`);
+        // Actualizar lista de reservas activas
+        this.cargarReservasActivas();
+      },
+      error: (error) => {
+        console.error('Error al cancelar la reserva:', error);
       }
-    }
+    });
   }
 
   showSuccessMessage(message: string): void {
@@ -266,22 +250,17 @@ export default class PrestamosComponent implements OnInit {
 
   generarRecordatorios(): void {
     const now = new Date();
-    this.reminders = this.prestamos
-      ?.filter(prestamo => new Date(prestamo.fechaDevolucion) > now)
-      .map(prestamo => {
-        const diasRestantes = Math.ceil((new Date(prestamo.fechaDevolucion).getTime() - now.getTime()) / (1000 * 3600 * 24));
-        return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
+    this.reminders = this.reservas
+      ?.filter(reserva => new Date(reserva.fechaReserva) > now)
+      .map(reserva => {
+        const diasRestantes = Math.ceil((new Date(reserva.fechaReserva).getTime() - now.getTime()) / (1000 * 3600 * 24));
+        return `Recordatorio: El libro "${reserva.libro.titulo}" tiene una reserva para dentro de ${diasRestantes} días.`;
       }) || [];
   }
-  logout() {
+
+  logout(): void {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('role');
     window.location.href = 'http://localhost:8080/biblioteca/LoginUsu.xhtml';
   }
-
-
-
-
-  
-  
 }

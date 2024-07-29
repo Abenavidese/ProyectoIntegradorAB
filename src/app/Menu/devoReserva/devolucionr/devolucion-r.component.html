@@ -1,0 +1,11 @@
+<div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h2 class="text-xl font-bold mb-4 text-white text-center">Reservas Pendientes</h2>
+    <div *ngFor="let reserva of reservas" class="mb-4 p-4 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+      <h3 class="text-lg font-bold text-white">{{ reserva.libro.titulo }}</h3>
+      <p>Usuario: {{ reserva.usuario.username }}</p>
+      <p>Fecha de Reserva: {{ reserva.fechaReserva | date }}</p>
+
+      <button *ngIf="reserva.reservaId !== undefined" (click)="devolverReserva(reserva.reservaId!)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Cancelar Reserva</button>
+    </div>
+  </div>
+  
