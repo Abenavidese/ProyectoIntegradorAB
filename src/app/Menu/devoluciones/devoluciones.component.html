@@ -1,0 +1,11 @@
+<div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h2 class="text-xl font-bold mb-4 text-white text-center">Devoluciones Pendientes</h2>
+    <div *ngFor="let prestamo of prestamos" class="mb-4 p-4 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+      <h3 class="text-lg font-bold text-white">{{ prestamo.libro.titulo }}</h3>
+      <p>Usuario: {{ prestamo.usuario.username }}</p>
+      <p>Fecha de Préstamo: {{ prestamo.fechaPrestamo | date }}</p>
+      <p>Fecha de Devolución: {{ prestamo.fechaDevolucion | date }}</p>
+      <button *ngIf="prestamo.prestamoId !== undefined" (click)="devolverPrestamo(prestamo.prestamoId!)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">Devolver</button>
+    </div>
+  </div>
+  

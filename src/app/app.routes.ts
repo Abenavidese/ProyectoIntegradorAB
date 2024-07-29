@@ -9,7 +9,9 @@ export const routes: Routes = [
     children: [
       {
         path: 'inicio',
-        loadComponent: () => import('./Menu/inicio/inicio.component')
+        loadComponent: () => import('./Menu/inicio/inicio.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_ADMIN', 'ROLE_USER'] }
       },
       {
         path: 'perfil',
@@ -38,7 +40,16 @@ export const routes: Routes = [
 
       {
         path: 'historial',
-        loadComponent: () => import('./Menu/historial/historial.component')
+        loadComponent: () => import('./Menu/historial/historial.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_ADMIN'] }
+      }, 
+      
+      {
+        path: 'devoluciones',
+        loadComponent: () => import('./Menu/devoluciones/devoluciones.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
       }
     ]
   }

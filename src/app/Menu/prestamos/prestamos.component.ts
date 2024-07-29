@@ -277,23 +277,9 @@ export default class PrestamosComponent implements OnInit {
     window.location.href = 'http://localhost:8080/biblioteca/LoginUsu.xhtml';
   }
 
-  devolverPrestamo(prestamoId: number): void {
-    this.prestamoService.devolverPrestamo(prestamoId).subscribe({
-      next: () => {
-        console.log('Préstamo devuelto con éxito');
-        
-        // Eliminar el préstamo devuelto de la lista local de préstamos
-        this.prestamos = this.prestamos?.filter(prestamo => prestamo.prestamoId !== prestamoId);
-        
-        // Volver a cargar los préstamos activos
-        this.cargarPrestamosActivos();
-      },
-      error: (error) => {
-        console.error('Error al devolver el préstamo:', error);
-      }
-    });
-  }
-  
+
+
+
   
   
 }

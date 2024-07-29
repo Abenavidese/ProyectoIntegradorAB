@@ -1,18 +1,18 @@
-<div class="container mx-auto p-5 bg-gray-50 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-  <h2 class="text-xl font-bold mb-4">Registrar Préstamo</h2>
-  <p>Usted está pidiendo el libro como <strong>{{ usuarioActual?.username }}</strong></p>
+<div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <h2 class="text-xl font-bold mb-4 text-white text-center">Registrar Préstamo</h2>
+    <p class="text-white">Usted está pidiendo el libro como <strong>{{ usuarioActual?.username }}</strong></p>
   <form (ngSubmit)="createPrestamo()">
     <div class="mb-4">
-      <label for="fechaPrestamo" class="block text-gray-700 dark:text-gray-200">Fecha de Préstamo:</label>
-      <input type="date" id="fechaPrestamo" name="fechaPrestamo" class="w-full p-2 border rounded" required>
+      <label for="fechaPrestamo" class="block text-gray-300 dark:text-gray-200">Fecha de Préstamo:</label>
+      <input type="date" id="fechaPrestamo" name="fechaPrestamo" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
     </div>
     <div class="mb-4">
-      <label for="fechaDevolucion" class="block text-gray-700 dark:text-gray-200">Fecha de Devolución:</label>
-      <input type="date" id="fechaDevolucion" name="fechaDevolucion" class="w-full p-2 border rounded" required>
+      <label for="fechaDevolucion" class="block text-gray-300 dark:text-gray-200">Fecha de Devolución:</label>
+      <input type="date" id="fechaDevolucion" name="fechaDevolucion" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
     </div>
     <div class="mb-4">
-      <label for="libro" class="block text-gray-700 dark:text-gray-200">Selecciona un Libro:</label>
-      <select (change)="onLibroChange($event)" class="w-full p-2 border rounded" required>
+      <label for="libro" class="block text-gray-300 dark:text-gray-200">Selecciona un Libro:</label>
+      <select (change)="onLibroChange($event)" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
         <option *ngFor="let libro of libros" [value]="libro.libroId">{{ libro.titulo }}</option>
       </select>
     </div>
@@ -27,13 +27,6 @@
   <div *ngIf="reminders.length > 0" class="mt-4 p-4 bg-yellow-200 text-yellow-800 rounded">
     <p *ngFor="let reminder of reminders">{{ reminder }}</p>
   </div>
-
-  <div *ngFor="let prestamo of prestamos" class="mb-4 p-4 border rounded">
-    <h3 class="text-lg font-bold">{{ prestamo.libro.titulo }}</h3>
-    <p>Usuario: {{ prestamo.usuario.username }}</p>
-    <p>Fecha de Préstamo: {{ prestamo.fechaPrestamo | date }}</p>
-    <p>Fecha de Devolución: {{ prestamo.fechaDevolucion | date }}</p>
-    <button *ngIf="prestamo.prestamoId !== undefined" (click)="devolverPrestamo(prestamo.prestamoId!)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">Devolver</button>
-  </div>
   
+
 </div>

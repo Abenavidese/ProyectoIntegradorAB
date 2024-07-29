@@ -5,7 +5,7 @@ import { OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { Prestamo } from '../../Prestamo.module';
-
+import { PrestamoService } from '../../service/prestamo.service';
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -20,11 +20,22 @@ export default class InicioComponent implements OnInit {
   username: string = '';
   roles: string[] = [];
   pendingReturns: Prestamo[] = [];
+  prestamos: Prestamo[] = [];
+  reminders: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private prestamoService: PrestamoService
   ) {}
+
+  modalBook = {
+    title: '',
+    author: '',
+    price: '',
+    genre: '',
+    publisher: ''
+  };
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -52,11 +63,36 @@ export default class InicioComponent implements OnInit {
     });
   }
 
-  openModal() {
+  
+
+  openModal(title: string, author: string, price: number, genre: string, publisher: string) {
+    this.modalBook = { title, author, price: `${price}`, genre, publisher };
     this.isModalOpen = true;
   }
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  cargarPrestamosActivos(): void {
+    this.prestamoService.obtenerPrestamosActivos().subscribe({
+      next: (data: Prestamo[]) => {
+        this.prestamos = data;
+        this.generarRecordatorios();
+      },
+      error: (error) => {
+        console.error('Error al cargar préstamos activos:', error);
+      }
+    });
+  }
+
+  generarRecordatorios(): void {
+    const now = new Date();
+    this.reminders = this.prestamos
+      .filter(prestamo => new Date(prestamo.fechaDevolucion) > now)
+      .map(prestamo => {
+        const diasRestantes = Math.ceil((new Date(prestamo.fechaDevolucion).getTime() - now.getTime()) / (1000 * 3600 * 24));
+        return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
+      });
   }
 }

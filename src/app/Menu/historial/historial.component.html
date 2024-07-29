@@ -1,21 +1,23 @@
-<div class="container mx-auto p-5 bg-gray-50 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-    <h2 class="text-xl font-bold mb-4">Historial de Préstamos</h2>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Libro</th>
-          <th>Usuario</th>
-          <th>Fecha de Préstamo</th>
-          <th>Fecha de Devolución</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let prestamo of prestamos">
-          <td>{{ prestamo.libro.titulo }}</td>
-          <td>{{ prestamo.usuario.username }}</td>
-          <td>{{ prestamo.fechaPrestamo | date }}</td>
-          <td>{{ prestamo.fechaDevolucion | date }}</td>
-        </tr>
-      </tbody>
-    </table>
+<div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <h2 class="text-xl font-bold mb-4 text-white">Historial de Préstamos</h2>
+  <div class="overflow-x-auto">
+      <table class="min-w-full bg-gray-800 dark:bg-gray-700 text-white">
+          <thead class="bg-gray-700 text-gray-200">
+              <tr>
+                  <th class="px-4 py-2 text-left">Libro</th>
+                  <th class="px-4 py-2 text-left">Usuario</th>
+                  <th class="px-4 py-2 text-left">Fecha de Préstamo</th>
+                  <th class="px-4 py-2 text-left">Fecha de Devolución</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let prestamo of prestamos" class="border-t border-gray-700 even:bg-gray-750 odd:bg-gray-800">
+                  <td class="px-4 py-2">{{ prestamo.libro.titulo }}</td>
+                  <td class="px-4 py-2">{{ prestamo.usuario.username }}</td>
+                  <td class="px-4 py-2">{{ prestamo.fechaPrestamo | date }}</td>
+                  <td class="px-4 py-2">{{ prestamo.fechaDevolucion | date }}</td>
+              </tr>
+          </tbody>
+      </table>
   </div>
+</div>

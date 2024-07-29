@@ -33,10 +33,25 @@ export class PrestamoService {
 
   }
   
-devolverPrestamo(prestamoId: number): Observable<void> {
-  return this.http.post<void>(`${this.apiUrl}/devolver/${prestamoId}`, {});
-}
+  devolverPrestamo(prestamoId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/devolver/${prestamoId}`, {});
+  }
 
+
+
+
+
+
+
+
+
+  reservarLibro(libroId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/reservar/${libroId}`, {});
+  }
+
+  liberarReserva(libroId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/liberar-reserva/${libroId}`, {});
+  }
   
   
 }
