@@ -10,8 +10,7 @@ export const routes: Routes = [
       {
         path: 'inicio',
         loadComponent: () => import('./Menu/inicio/inicio.component'),
-        canActivate: [RoleGuard],
-        data: { expectedRoles: ['ROLE_ADMIN', 'ROLE_USER'] }
+        
       },
       {
         path: 'perfil',
@@ -48,6 +47,19 @@ export const routes: Routes = [
       {
         path: 'devoluciones',
         loadComponent: () => import('./Menu/devoluciones/devoluciones.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
+      },
+
+      {
+        path: 'help-info',
+        loadComponent: () => import('./Menu/help-info/help-info.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
+      },
+      {
+        path: 'legal-info',
+        loadComponent: () => import('./Menu/legal-info/legal-info.component'),
         canActivate: [RoleGuard],
         data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
       }
