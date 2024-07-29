@@ -80,6 +80,7 @@
         </li>
 
 
+
         <li>
           <a routerLink="/reservas">
             <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">
@@ -104,6 +105,7 @@
 
         
 
+
         
         
    
@@ -113,8 +115,36 @@
 
 <ul class="mb-4 flex flex-col gap-1">
   <li class="mx-3.5 mt-4 mb-2">
-    <p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">auth pages</p>
+    <p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">Auth pages</p>
   </li>
+
+
+
+  <li>
+    <a routerLink="/help-info">
+      <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 18h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 14.9 12 15.5 12 17h-2v-.5c0-1 .45-1.5 1.17-2.18l1.24-1.26C12.91 12.34 13 11.78 13 11c0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"></path>
+        </svg>
+        <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Ayuda</p>
+      </button>
+    </a>
+  </li>
+  
+  <li>
+    <a routerLink="/legal-info">
+      <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
+          <path d="M1 21h4v-8H1v8zM21 8l-5 3v4.18c-.31.11-.6.27-.84.49l-2.16 2.16c-.2.2-.34.45-.4.73L11 21h4.27l1.67-1.67 2.83 2.83 1.41-1.41-2.83-2.83L21 8zm-9 5.38L14.67 12 12 9.67 9.33 12 12 13.38zM18.5 5c-.83 0-1.5.67-1.5 1.5S17.67 8 18.5 8 20 7.33 20 6.5 19.33 5 18.5 5zM15 1h-2v2H6V1H4v2H3v2h18V3h-1V1h-2v2h-5V1z"></path>
+        </svg>
+        <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Información Legal</p>
+      </button>
+    </a>
+  </li>
+  
+
+
+
   <li>
     <button (click)="logout()" class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">

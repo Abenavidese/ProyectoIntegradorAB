@@ -21,6 +21,8 @@ export class AuthService {
   private baseUrlprest = 'http://localhost:8080/library/rs/prestamos'; // URL del servicio de autenticación
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public currentUser: Observable<any> = this.currentUserSubject.asObservable();
+  public loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
     const token = localStorage.getItem('token');
@@ -30,6 +32,8 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<UserData> {
+    this.loadingSubject.next(true); // Mostrar pantalla de carga
+
     return this.http.post<UserData>(this.baseUrl, { username, password }).pipe(
       map((userData: UserData) => {
         const token = userData.token;
