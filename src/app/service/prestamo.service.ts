@@ -30,5 +30,13 @@ export class PrestamoService {
 
   obtenerPrestamosActivos(): Observable<Prestamo[]> {
     return this.http.get<Prestamo[]>(`${this.apiUrl}/activos`);
+
   }
+  
+devolverPrestamo(prestamoId: number): Observable<void> {
+  return this.http.post<void>(`${this.apiUrl}/devolver/${prestamoId}`, {});
+}
+
+  
+  
 }

@@ -4,7 +4,7 @@ import { Usuario } from "./Usuario.module";
 
 export class Prestamo {
   prestamoId?: number;
-  libro: Libro; // Cambiado a 'libro'
+  libro: Libro;
   usuario: Usuario;
   fechaPrestamo: string;
   fechaDevolucion: string;

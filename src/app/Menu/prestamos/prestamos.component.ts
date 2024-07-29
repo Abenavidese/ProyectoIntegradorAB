@@ -192,6 +192,11 @@ export default class PrestamosComponent implements OnInit {
     }
   }
 
+
+  
+
+  
+
   actualizarDisponibilidadLibro(libroId: number, disponibilidad: boolean): void {
     const libro = this.libros.find(libro => libro.libroId === libroId);
     if (libro) {
@@ -204,7 +209,6 @@ export default class PrestamosComponent implements OnInit {
       });
     }
   }
-
   resetForm(): void {
     this.newPrestamo = {
       fechaPrestamo: '',
@@ -272,4 +276,24 @@ export default class PrestamosComponent implements OnInit {
     localStorage.removeItem('role');
     window.location.href = 'http://localhost:8080/biblioteca/LoginUsu.xhtml';
   }
+
+  devolverPrestamo(prestamoId: number): void {
+    this.prestamoService.devolverPrestamo(prestamoId).subscribe({
+      next: () => {
+        console.log('Préstamo devuelto con éxito');
+        
+        // Eliminar el préstamo devuelto de la lista local de préstamos
+        this.prestamos = this.prestamos?.filter(prestamo => prestamo.prestamoId !== prestamoId);
+        
+        // Volver a cargar los préstamos activos
+        this.cargarPrestamosActivos();
+      },
+      error: (error) => {
+        console.error('Error al devolver el préstamo:', error);
+      }
+    });
+  }
+  
+  
+  
 }

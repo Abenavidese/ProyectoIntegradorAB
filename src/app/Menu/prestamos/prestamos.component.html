@@ -23,7 +23,17 @@
   <div *ngIf="showSuccess" class="mt-4 p-4 bg-green-200 text-green-800 rounded">
     {{ successMessage }}
   </div>
+
   <div *ngIf="reminders.length > 0" class="mt-4 p-4 bg-yellow-200 text-yellow-800 rounded">
     <p *ngFor="let reminder of reminders">{{ reminder }}</p>
   </div>
+
+  <div *ngFor="let prestamo of prestamos" class="mb-4 p-4 border rounded">
+    <h3 class="text-lg font-bold">{{ prestamo.libro.titulo }}</h3>
+    <p>Usuario: {{ prestamo.usuario.username }}</p>
+    <p>Fecha de Préstamo: {{ prestamo.fechaPrestamo | date }}</p>
+    <p>Fecha de Devolución: {{ prestamo.fechaDevolucion | date }}</p>
+    <button *ngIf="prestamo.prestamoId !== undefined" (click)="devolverPrestamo(prestamo.prestamoId!)" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">Devolver</button>
+  </div>
+  
 </div>
