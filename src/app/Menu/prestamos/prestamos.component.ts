@@ -267,7 +267,6 @@ export default class PrestamosComponent implements OnInit {
         return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
       }) || [];
   }
-
   logout() {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('role');
