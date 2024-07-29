@@ -50,7 +50,21 @@ export const routes: Routes = [
         loadComponent: () => import('./Menu/devoluciones/devoluciones.component'),
         canActivate: [RoleGuard],
         data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
+      },
+       
+      {
+        path: 'reservas',
+        loadComponent: () => import('./Menu/reservas/reservas.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
+      },
+      {
+        path: 'devoReserva',
+        loadComponent: () => import('./Menu/devoReserva/devolucionr/devolucion-r.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
       }
+      
     ]
   }
 ];
