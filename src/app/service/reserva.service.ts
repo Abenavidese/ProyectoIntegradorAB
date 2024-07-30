@@ -37,11 +37,9 @@ export class ReservaService {
     return this.http.get<Reserva[]>(`${this.apiUrl}/activas`);
   }
 
-  // Cancelar una reserva
   cancelarReserva(reservaId: number): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/cancelar/${reservaId}`, {});
   }
-
   
 
   devolverReserva(reservaId: number): Observable<void> {

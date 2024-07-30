@@ -33,15 +33,17 @@ export default class DevoReservaComponent implements OnInit {
   }
 
   devolverReserva(reservaId: number): void {
-    this.reservaService.devolverReserva(reservaId).subscribe({
-      next: () => {
-        console.log('Reserva devuelta con éxito');
-        // Volver a cargar las reservas pendientes
-        this.cargarReservasPendientes();
-      },
-      error: (error) => {
-        console.error('Error al devolver la reserva:', error);
-      }
-    });
+    if (confirm('¿Estás seguro de que quieres cancelar esta reserva?')) {
+      this.reservaService.devolverReserva(reservaId).subscribe({
+        next: () => {
+          console.log('Reserva cancelada con éxito');
+          // Volver a cargar las reservas pendientes
+          this.cargarReservasPendientes();
+        },
+        error: (error) => {
+          console.error('Error al cancelar la reserva:', error);
+        }
+      });
+    }
   }
 }

@@ -31,11 +31,7 @@ export const routes: Routes = [
         data: { expectedRoles: ['ROLE_USER', 'ROLE_ADMIN'] }
       },
 
-      {
-        path: 'prestamos',
-        loadComponent: () => import('./Menu/prestamos/prestamos.component')
-      },
-      
+
 
       {
         path: 'historial',
@@ -56,7 +52,7 @@ export const routes: Routes = [
         path: 'reservas',
         loadComponent: () => import('./Menu/reservas/reservas.component'),
 
-
+      },
       {
         path: 'help-info',
         loadComponent: () => import('./Menu/help-info/help-info.component'),
@@ -68,6 +64,9 @@ export const routes: Routes = [
 
         path: 'devoReserva',
         loadComponent: () => import('./Menu/devoReserva/devolucionr/devolucion-r.component'),
+
+
+      },  {
 
         path: 'legal-info',
         loadComponent: () => import('./Menu/legal-info/legal-info.component'),
