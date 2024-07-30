@@ -1,6 +1,22 @@
 <section class="bg-white dark:bg-gray-900">
 
-
+  <div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h2 class="text-xl font-bold mb-4 text-white text-center">Recordatorios</h2>
+  
+    <div *ngIf="prestamoReminders.length > 0" class="mt-4 p-4 bg-yellow-200 text-yellow-800 rounded">
+      <h3>Préstamos:</h3>
+      <ul>
+        <li *ngFor="let reminder of prestamoReminders">{{ reminder }}</li>
+      </ul>
+    </div>
+  
+    <div *ngIf="reservaReminders.length > 0" class="mt-4 p-4 bg-yellow-200 text-yellow-800 rounded">
+      <h3>Reservas:</h3>
+      <ul>
+        <li *ngFor="let reminder of reservaReminders">{{ reminder }}</li>
+      </ul>
+    </div>
+  </div>
   
   <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
     <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">

@@ -36,14 +36,16 @@ export class ReservaService {
   obtenerReservasActivas(): Observable<Reserva[]> {
     return this.http.get<Reserva[]>(`${this.apiUrl}/activas`);
   }
-
   cancelarReserva(reservaId: number): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/cancelar/${reservaId}`, {});
   }
+
+  obtenerReservasActivasPorUsuario(userId: number): Observable<Reserva[]> {
+  return this.http.get<Reserva[]>(`${this.apiUrl}/activas/${userId}`);
+}
+
   
 
-  devolverReserva(reservaId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/devolver/${reservaId}`);
-  }
+
 
 }

@@ -37,6 +37,8 @@ export default class ReservasComponent implements OnInit {
       portada: '',
       disponibilidad: false,
       reservado: false
+
+
     },
     usuario: {
       usuarioId: 0,
@@ -47,6 +49,9 @@ export default class ReservasComponent implements OnInit {
     },
     reservado: true
   };
+
+  errorMessage: string = '';
+  showError: boolean = false;
 
   successMessage: string = '';
   showSuccess: boolean = false;
@@ -135,31 +140,49 @@ export default class ReservasComponent implements OnInit {
     if (this.usuarioActual && this.libroActual) {
       this.newReserva.usuario = this.usuarioActual;
       this.newReserva.libro = this.libroActual;
-
+  
       const fechaReservaInput = (document.getElementById('fechaReserva') as HTMLInputElement).value;
-      
+  
       if (fechaReservaInput) {
         const fechaReserva = new Date(fechaReservaInput);
+        const now = new Date();
+        now.setHours(0, 0, 0, 0); // Reset time to start of the day
+  
+        // Check if the reservation date is at least 7 days from today
+        const minReservaDate = new Date(now);
+        minReservaDate.setDate(now.getDate() + 7);
+  
+        if (fechaReserva < minReservaDate) {
+          this.errorMessage = 'La fecha de reserva debe ser al menos 7 días a partir de hoy.';
+          this.showError = true;
+          setTimeout(() => {
+            this.errorMessage = '';
+            this.showError = false;
+          }, 5000); // Ocultar el mensaje después de 5 segundos
+          return;
+        }
 
+        this.showError = false; // Reset error message if no issues
+
+  
         const offsetMs = fechaReserva.getTimezoneOffset() * 60 * 1000;
         const fechaReservaLocal = new Date(fechaReserva.getTime() + offsetMs);
-
-        const now = new Date();
+  
         const currentHours = now.getHours();
         const currentMinutes = now.getMinutes();
         const currentSeconds = now.getSeconds();
-
+  
         fechaReservaLocal.setHours(currentHours, currentMinutes, currentSeconds, 0);
-
+  
         this.newReserva.fechaReserva = fechaReservaLocal.toISOString();
-
+  
         const reserva: Reserva = {
           fechaReserva: this.newReserva.fechaReserva,
           libro: this.newReserva.libro,
           usuario: this.newReserva.usuario,
           reservado: true
         };
-
+  
         this.reservaService.realizarReserva(reserva).subscribe({
           next: (reserva: Reserva) => {
             if (!this.reservas) this.reservas = [];
@@ -170,6 +193,12 @@ export default class ReservasComponent implements OnInit {
             this.resetForm();
             this.showSuccessMessage(`El libro "${this.libroActual?.titulo}" ha sido reservado exitosamente. Fecha de Reserva: ${this.newReserva.fechaReserva}`);
             this.cargarReservasActivas();  // Volver a cargar las reservas activas después de crear una nueva
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/reservas']);
+            });
+            
+            
+
           },
           error: (error) => {
             console.error('Error al registrar la reserva:', error);
@@ -187,6 +216,7 @@ export default class ReservasComponent implements OnInit {
       }
     }
   }
+  
 
   actualizarDisponibilidadLibro(libroId: number, disponibilidad: boolean): void {
     const libro = this.libros.find(libro => libro.libroId === libroId);

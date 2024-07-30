@@ -3,8 +3,8 @@
     <p class="text-white">Usted está pidiendo el libro como <strong>{{ usuarioActual?.username }}</strong></p>
   <form (ngSubmit)="createPrestamo()">
     <div class="mb-4">
-      <label for="fechaPrestamo" class="block text-gray-300 dark:text-gray-200">Fecha de Préstamo:</label>
-      <input type="date" id="fechaPrestamo" name="fechaPrestamo" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+      <input type="date" id="fechaPrestamo" name="fechaPrestamo" [(ngModel)]="newPrestamo.fechaPrestamo" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" readonly required>
+
     </div>
     <div class="mb-4">
       <label for="fechaDevolucion" class="block text-gray-300 dark:text-gray-200">Fecha de Devolución:</label>

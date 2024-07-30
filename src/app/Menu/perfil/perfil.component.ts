@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Libro } from '../../Libro.module';
 import { ServiciosService } from '../../service/servicios.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,7 +15,7 @@ export default class PerfilComponent implements OnInit {
 
   isEditMode: boolean = false; // Para controlar el modo de edición o creación
   libros?: Libro[];
-  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
+  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: false };
   modalSwitch:boolean=false;
 
   constructor(private libroService: ServiciosService) { }
@@ -54,15 +54,28 @@ openmoda(){
     this.libroService.guardarLibro(this.newLibro).subscribe((libro: Libro) => {
       this.libros?.push(libro);
       this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
+            this.resetForm(); // Reiniciar el formulario después de crear un libro
+
     });
   }
 
-  onSubmit() {
-    if (this.isEditMode) {
-      this.actualizarLibro();
+  onSubmit(libroForm: NgForm) {
+    if (libroForm.valid) {
+      if (this.isEditMode) {
+        this.actualizarLibro();
+      } else {
+        this.createLibro();
+      }
     } else {
-      this.createLibro();
+      this.markFormAsTouched(libroForm);
     }
+  }
+  
+  private markFormAsTouched(libroForm: NgForm): void {
+    Object.keys(libroForm.controls).forEach(field => {
+      const control = libroForm.controls[field];
+      control.markAsTouched({ onlySelf: true });
+    });
   }
 
   actualizarLibro() {
@@ -85,5 +98,8 @@ openmoda(){
     this.newLibro = { ...libro }; // Clona el objeto para evitar mutaciones directas
     this.isEditMode = true; // Cambia al modo de edición
   }
+
+
+  
 
 }

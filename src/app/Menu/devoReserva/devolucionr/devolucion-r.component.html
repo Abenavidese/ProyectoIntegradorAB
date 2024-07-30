@@ -5,7 +5,7 @@
       <p>Usuario: {{ reserva.usuario.username }}</p>
       <p>Fecha de Reserva: {{ reserva.fechaReserva | date }}</p>
 
-      <button *ngIf="reserva.reservaId !== undefined" (click)="devolverReserva(reserva.reservaId!)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Cancelar Reserva</button>
+      <button *ngIf="reserva.reservaId !== undefined" (click)="cancelarReserva(reserva.reservaId!)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Cancelar Reserva</button>
     </div>
   </div>
   

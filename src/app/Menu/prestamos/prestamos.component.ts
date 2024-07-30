@@ -66,8 +66,15 @@ export default class PrestamosComponent implements OnInit {
     this.cargarUsuarios();
     this.cargarLibros();
     this.cargarPrestamosActivos();
+    this.setDefaultFechaPrestamo(); // Set default fechaPrestamo
   }
 
+
+  setDefaultFechaPrestamo(): void {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of the day
+    this.newPrestamo.fechaPrestamo = today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+  }
   cargarUsuarios(): void {
     this.userService.obtenerUsuarios().subscribe({
       next: (data: Usuario[]) => {
@@ -175,6 +182,10 @@ export default class PrestamosComponent implements OnInit {
             this.resetForm();
             this.showSuccessMessage(`El libro "${this.libroActual?.titulo}" ha sido prestado exitosamente. Fecha de Préstamo: ${this.newPrestamo.fechaPrestamo}, Fecha de Devolución: ${this.newPrestamo.fechaDevolucion}`);
             this.cargarPrestamosActivos();  // Volver a cargar los préstamos activos después de crear uno nuevo
+                        // Recargar la misma ruta para actualizar los datos sin recargar toda la página
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/prestamos']);
+                        });
           },
           error: (error) => {
             console.error('Error al registrar el préstamo:', error);
@@ -273,11 +284,7 @@ export default class PrestamosComponent implements OnInit {
         return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
       }) || [];
   }
-  logout() {
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('role');
-    window.location.href = 'http://localhost:8080/biblioteca/LoginUsu.xhtml';
-  }
+
 
 
 

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { Prestamo } from '../../Prestamo.module';
 import { PrestamoService } from '../../service/prestamo.service';
+import { ReservaService } from '../../service/reserva.service';
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -23,10 +24,15 @@ export default class InicioComponent implements OnInit {
   prestamos: Prestamo[] = [];
   reminders: string[] = [];
 
+  prestamoReminders: string[] = [];
+  reservaReminders: string[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private prestamoService: PrestamoService
+    private prestamoService: PrestamoService,
+
+    private reservaService: ReservaService,
   ) {}
 
   modalBook = {
@@ -61,6 +67,9 @@ export default class InicioComponent implements OnInit {
         console.log('No token found.');
       }
     });
+
+    this.cargarRecordatorios();
+
   }
 
   
@@ -78,7 +87,7 @@ export default class InicioComponent implements OnInit {
     this.prestamoService.obtenerPrestamosActivos().subscribe({
       next: (data: Prestamo[]) => {
         this.prestamos = data;
-        this.generarRecordatorios();
+        this.cargarRecordatorios();
       },
       error: (error) => {
         console.error('Error al cargar préstamos activos:', error);
@@ -86,13 +95,39 @@ export default class InicioComponent implements OnInit {
     });
   }
 
-  generarRecordatorios(): void {
-    const now = new Date();
-    this.reminders = this.prestamos
-      .filter(prestamo => new Date(prestamo.fechaDevolucion) > now)
-      .map(prestamo => {
-        const diasRestantes = Math.ceil((new Date(prestamo.fechaDevolucion).getTime() - now.getTime()) / (1000 * 3600 * 24));
-        return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
-      });
+  cargarRecordatorios(): void {
+    const username = this.authService.getUsername();
+
+    // Cargar recordatorios de préstamos
+    this.prestamoService.obtenerPrestamosActivos().subscribe({
+      next: (data: any) => {
+        const now = new Date();
+        this.prestamoReminders = data
+          .filter((prestamo: any) => prestamo.usuario.username === username && new Date(prestamo.fechaDevolucion) > now)
+          .map((prestamo: any) => {
+            const diasRestantes = Math.ceil((new Date(prestamo.fechaDevolucion).getTime() - now.getTime()) / (1000 * 3600 * 24));
+            return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
+          });
+      },
+      error: (error) => {
+        console.error('Error al cargar recordatorios de préstamos:', error);
+      }
+    });
+
+    // Cargar recordatorios de reservas
+    this.reservaService.obtenerReservasActivas().subscribe({
+      next: (data: any) => {
+        const now = new Date();
+        this.reservaReminders = data
+          .filter((reserva: any) => reserva.usuario.username === username && new Date(reserva.fechaReserva) > now)
+          .map((reserva: any) => {
+            const diasRestantes = Math.ceil((new Date(reserva.fechaReserva).getTime() - now.getTime()) / (1000 * 3600 * 24));
+            return `Recordatorio: El libro "${reserva.libro.titulo}" tiene una reserva para dentro de ${diasRestantes} días.`;
+          });
+      },
+      error: (error) => {
+        console.error('Error al cargar recordatorios de reservas:', error);
+      }
+    });
   }
 }
