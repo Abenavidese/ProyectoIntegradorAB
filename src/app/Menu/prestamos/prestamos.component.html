@@ -1,3 +1,8 @@
+<!-- prestamos.component.html -->
+<app-loading-overlay [isLoading]="isLoading" message="Espere mientras realizamos la operación"></app-loading-overlay>
+
+<!-- Resto de la plantilla -->
+
 <div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
   <h2 class="text-xl font-bold mb-4 text-white text-center">Registrar Préstamo</h2>
     <p class="text-white">Usted está pidiendo el libro como <strong>{{ usuarioActual?.username }}</strong></p>
