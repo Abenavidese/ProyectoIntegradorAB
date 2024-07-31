@@ -9,11 +9,12 @@ import { Libro } from '../../Libro.module';
 import { ServiciosService } from '../../service/servicios.service';
 import { Usuario } from '../../Usuario.module';
 import { UserService } from '../../service/user.service';
+import { LoadingOverlayComponent } from '../../Complementary/loading-overlay/loading-overlay.component';
 
 @Component({
   selector: 'app-prestamos',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, LoadingOverlayComponent],
   templateUrl: './prestamos.component.html',
   styleUrls: ['./prestamos.component.scss']
 })
@@ -25,6 +26,7 @@ export default class PrestamosComponent implements OnInit {
   libroId: number | null = null;
   usuarioActual: Usuario | null = null;
   libroActual: Libro | null = null;
+  isLoading: boolean = false;
   newPrestamo: Prestamo = {
     fechaPrestamo: '',
     fechaDevolucion: '',
@@ -139,7 +141,10 @@ export default class PrestamosComponent implements OnInit {
   }
 
   createPrestamo(): void {
+    
     if (this.usuarioActual && this.libroActual) {
+      this.isLoading = true; // Mostrar el overlay de carga
+
       this.newPrestamo.usuario = this.usuarioActual;
       this.newPrestamo.libro = this.libroActual;
 
