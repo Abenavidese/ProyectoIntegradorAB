@@ -45,6 +45,12 @@ export const routes: Routes = [
         canActivate: [RoleGuard],
         data: { expectedRoles: ['ROLE_ADMIN'] }
       }, 
+      {
+        path: 'Reportes2',
+        loadComponent: () => import('./Reportes2/reporte2/reporte2.component'),
+        canActivate: [RoleGuard],
+        data: { expectedRoles: ['ROLE_ADMIN'] }
+      }, 
       
       {
         path: 'devoluciones',

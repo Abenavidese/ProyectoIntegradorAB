@@ -16,36 +16,16 @@ import { Usuario } from '../../Usuario.module';
 export default class Reporte1Component implements OnInit {
 
   cantidadPrestamosPorUsuario: { [username: string]: number } = {};
-  librosMasPopulares: { libro: string, cantidadPrestamos: number }[] = [];
 
   constructor(private reportesService: ReportesService) { }
 
   ngOnInit(): void {
-    this.cargarDatosReporte();
-    this.obtenerLibrosMasPopulares();
-
-  }
-
-  cargarDatosReporte(): void {
     this.reportesService.prestamosPorUsuario$.subscribe(
       data => {
         this.cantidadPrestamosPorUsuario = data;
       },
       error => {
         console.error('Error al recibir los datos de préstamos por usuario:', error);
-      }
-    );
-
-    this.obtenerLibrosMasPopulares();
-  }
-
-  obtenerLibrosMasPopulares(): void {
-    this.reportesService.getLibrosMasPopulares().subscribe(
-      data => {
-        this.librosMasPopulares = data;
-      },
-      error => {
-        console.error('Error al obtener los libros más populares', error);
       }
     );
   }
