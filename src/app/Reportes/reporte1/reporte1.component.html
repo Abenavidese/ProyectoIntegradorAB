@@ -1,1 +1,24 @@
-<p>reporte1 works!</p>
+<div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h2 class="text-xl font-bold mb-4 text-white">Reporte: Cantidad de Préstamos por Usuario</h2>
+    <div class="mt-4">
+      <ul>
+        <li *ngFor="let username of cantidadPrestamosPorUsuario | keyvalue" class="text-white">
+          {{ username.key }}: {{ username.value }} préstamos
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5">
+    <h2 class="text-xl font-bold mb-4 text-white">Libros Más Populares</h2>
+    <div class="mt-4">
+      <ul>
+        <li *ngFor="let libro of librosMasPopulares" class="text-white">
+          {{ libro.libro }} (Préstamos: {{ libro.cantidadPrestamos }})
+        </li>
+      </ul>
+    </div>
+  </div>
+  

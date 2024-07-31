@@ -15,36 +15,37 @@ import { Usuario } from '../../Usuario.module';
 })
 export default class Reporte1Component implements OnInit {
 
+  cantidadPrestamosPorUsuario: { [username: string]: number } = {};
+  librosMasPopulares: { libro: string, cantidadPrestamos: number }[] = [];
 
-
-  librosMasSolicitados: any[] | undefined;
-  usuariosMasActivos: any[] | undefined;
-
-  constructor(private reporteService: ReportesService) { }
+  constructor(private reportesService: ReportesService) { }
 
   ngOnInit(): void {
-    this.obtenerTodosLosLibrosMasSolicitados();
-    this.obtenerTodosLosUsuariosMasActivos();
+    this.cargarDatosReporte();
+    this.obtenerLibrosMasPopulares();
+
   }
 
-  obtenerTodosLosLibrosMasSolicitados(): void {
-    this.reporteService.getLibrosMasSolicitados().subscribe(
+  cargarDatosReporte(): void {
+    this.reportesService.prestamosPorUsuario$.subscribe(
       data => {
-        this.librosMasSolicitados = data;
+        this.cantidadPrestamosPorUsuario = data;
       },
       error => {
-        console.error('Error al obtener todos los libros más solicitados', error);
+        console.error('Error al recibir los datos de préstamos por usuario:', error);
       }
     );
+
+    this.obtenerLibrosMasPopulares();
   }
 
-  obtenerTodosLosUsuariosMasActivos(): void {
-    this.reporteService.getUsuariosMasActivos().subscribe(
+  obtenerLibrosMasPopulares(): void {
+    this.reportesService.getLibrosMasPopulares().subscribe(
       data => {
-        this.usuariosMasActivos = data;
+        this.librosMasPopulares = data;
       },
       error => {
-        console.error('Error al obtener todos los usuarios más activos', error);
+        console.error('Error al obtener los libros más populares', error);
       }
     );
   }
