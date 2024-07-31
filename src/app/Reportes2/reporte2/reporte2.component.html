@@ -1,10 +1,22 @@
 <div class="container mx-auto p-5 bg-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5">
     <h2 class="text-xl font-bold mb-4 text-white">Libros Más Populares</h2>
-    <div class="mt-4">
-      <ul>
-        <li *ngFor="let libro of librosMasPopulares" class="text-white">
-          {{ libro.libro }} (Préstamos: {{ libro.cantidadPrestamos }})
-        </li>
-      </ul>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-gray-800 dark:bg-gray-700 text-white">
+            <thead class="bg-gray-700 text-gray-200">
+                <tr>
+                    <th class="px-4 py-2 text-left">Libro</th>
+                    <th class="px-4 py-2 text-left">Cantidad de Préstamos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let libro of librosMasPopulares" class="border-t border-gray-700 even:bg-gray-750 odd:bg-gray-800">
+                    <td class="px-4 py-2">{{ libro.libro }}</td>
+
+                    <td class="px-4 py-2">{{ libro.cantidadPrestamos }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
   </div>
+  
+  
