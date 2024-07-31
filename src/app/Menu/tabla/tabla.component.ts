@@ -15,28 +15,31 @@ import { Libro } from '../../Libro.module';
 })
 export default class TablaComponent implements OnInit {
 
-  isEditMode: boolean = false;
-  libros?: Libro[];
-  filteredLibros?: Libro[];
-  searchTerm: string = '';
-  selectedCategory: string = '';
-  selectedAuthor: string = '';
-  selectedAvailability: string = '';
-  categorias: string[] = [];
-  autores: string[] = [];
-  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado:true };
-  modalSwitch: boolean = false;
+  isEditMode: boolean = false; // Modo de edición para manejar la adición/edición de libros
+  libros?: Libro[]; // Lista de libros cargados desde el servicio
+  filteredLibros?: Libro[]; // Lista filtrada de libros para mostrar en la tabla
+  searchTerm: string = ''; // Término de búsqueda para filtrar libros por título
+  selectedCategory: string = ''; // Categoría seleccionada para filtrar libros
+  selectedAuthor: string = ''; // Autor seleccionado para filtrar libros
+  selectedAvailability: string = ''; // Disponibilidad seleccionada para filtrar libros
+  categorias: string[] = []; // Lista de categorías únicas extraídas de los libros
+  autores: string[] = []; // Lista de autores únicos extraídos de los libros
+  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true }; // Modelo para un nuevo libro
+  modalSwitch: boolean = false; // Estado del modal para añadir/editar libros
 
   constructor(private libroService: ServiciosService, private authService: AuthService, private router: Router) { }
 
+  // Método de inicialización del componente
   ngOnInit(): void {
-    this.cargarLibros();
+    this.cargarLibros(); // Carga la lista de libros al iniciar el componente
   }
 
+  // Abre el modal para añadir/editar libros
   openModal() {
     this.modalSwitch = true;
   }
 
+  // Carga los libros desde el servicio y filtra categorías y autores únicos
   cargarLibros() {
     this.libroService.obtenerLibros().subscribe({
       next: (data: Libro[]) => {
@@ -49,6 +52,7 @@ export default class TablaComponent implements OnInit {
     });
   }
 
+  // Filtra la lista de libros según los criterios seleccionados (título, categoría, autor, disponibilidad)
   filtrarLibros() {
     this.filteredLibros = this.libros?.filter(libro => {
       const matchesTitle = libro.titulo.toLowerCase().includes(this.searchTerm.toLowerCase());
@@ -59,15 +63,18 @@ export default class TablaComponent implements OnInit {
     });
   }
 
+  // Lógica para el envío de formularios (no implementada aquí)
   onSubmit() {
     // Implementa la lógica para el formulario si es necesario
   }
 
+  // Restablece el formulario y desactiva el modo de edición
   resetForm() {
-    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado:true };
+    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
     this.isEditMode = false;
   }
 
+  // Navega a la ruta de préstamos con el ID del libro seleccionado
   pedirLibro(libroId: number | undefined) {
     if (libroId !== undefined) {
       this.authService.setLibroId(libroId);

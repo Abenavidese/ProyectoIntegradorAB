@@ -19,15 +19,15 @@ import { LoadingOverlayComponent } from '../../Complementary/loading-overlay/loa
   styleUrls: ['./prestamos.component.scss']
 })
 export default class PrestamosComponent implements OnInit {
-  prestamos?: Prestamo[];
-  username: string | null = null;
-  usuarios: Usuario[] = [];
-  libros: Libro[] = [];
-  libroId: number | null = null;
-  usuarioActual: Usuario | null = null;
-  libroActual: Libro | null = null;
-  isLoading: boolean = false;
-  newPrestamo: Prestamo = {
+  prestamos?: Prestamo[]; // Lista de préstamos del usuario actual
+  username: string | null = null; // Nombre de usuario del usuario actual
+  usuarios: Usuario[] = []; // Lista de todos los usuarios
+  libros: Libro[] = []; // Lista de libros disponibles para préstamo
+  libroId: number | null = null; // ID del libro seleccionado
+  usuarioActual: Usuario | null = null; // Usuario que realiza el préstamo
+  libroActual: Libro | null = null; // Libro que se va a prestar
+  isLoading: boolean = false; // Estado para controlar la pantalla de carga
+  newPrestamo: Prestamo = { // Modelo para crear un nuevo préstamo
     fechaPrestamo: '',
     fechaDevolucion: '',
     libro: {
@@ -50,9 +50,9 @@ export default class PrestamosComponent implements OnInit {
     }
   };
 
-  successMessage: string = '';
-  showSuccess: boolean = false;
-  reminders: string[] = [];
+  successMessage: string = ''; // Mensaje de éxito
+  showSuccess: boolean = false; // Estado para mostrar el mensaje de éxito
+  reminders: string[] = []; // Recordatorios de préstamos próximos
 
   constructor(
     private authService: AuthService,
@@ -68,15 +68,15 @@ export default class PrestamosComponent implements OnInit {
     this.cargarUsuarios();
     this.cargarLibros();
     this.cargarPrestamosActivos();
-    this.setDefaultFechaPrestamo(); // Set default fechaPrestamo
+    this.setDefaultFechaPrestamo();
   }
-
 
   setDefaultFechaPrestamo(): void {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of the day
-    this.newPrestamo.fechaPrestamo = today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+    today.setHours(0, 0, 0, 0); // Reinicia la hora al inicio del día
+    this.newPrestamo.fechaPrestamo = today.toISOString().split('T')[0]; // Formato 'YYYY-MM-DD'
   }
+
   cargarUsuarios(): void {
     this.userService.obtenerUsuarios().subscribe({
       next: (data: Usuario[]) => {
@@ -141,7 +141,6 @@ export default class PrestamosComponent implements OnInit {
   }
 
   createPrestamo(): void {
-    
     if (this.usuarioActual && this.libroActual) {
       this.isLoading = true; // Mostrar el overlay de carga
 
@@ -186,11 +185,10 @@ export default class PrestamosComponent implements OnInit {
             }
             this.resetForm();
             this.showSuccessMessage(`El libro "${this.libroActual?.titulo}" ha sido prestado exitosamente. Fecha de Préstamo: ${this.newPrestamo.fechaPrestamo}, Fecha de Devolución: ${this.newPrestamo.fechaDevolucion}`);
-            this.cargarPrestamosActivos();  // Volver a cargar los préstamos activos después de crear uno nuevo
-                        // Recargar la misma ruta para actualizar los datos sin recargar toda la página
+            this.cargarPrestamosActivos(); // Volver a cargar los préstamos activos después de crear uno nuevo
             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/prestamos']);
-                        });
+              this.router.navigate(['/prestamos']);
+            });
           },
           error: (error) => {
             console.error('Error al registrar el préstamo:', error);
@@ -209,11 +207,6 @@ export default class PrestamosComponent implements OnInit {
     }
   }
 
-
-  
-
-  
-
   actualizarDisponibilidadLibro(libroId: number, disponibilidad: boolean): void {
     const libro = this.libros.find(libro => libro.libroId === libroId);
     if (libro) {
@@ -226,6 +219,7 @@ export default class PrestamosComponent implements OnInit {
       });
     }
   }
+
   resetForm(): void {
     this.newPrestamo = {
       fechaPrestamo: '',
@@ -239,7 +233,7 @@ export default class PrestamosComponent implements OnInit {
         editorial: '',
         portada: '',
         disponibilidad: false,
-        reservado:false
+        reservado: false
       },
       usuario: {
         usuarioId: 0,
@@ -289,11 +283,4 @@ export default class PrestamosComponent implements OnInit {
         return `Recordatorio: El libro "${prestamo.libro.titulo}" debe ser devuelto en ${diasRestantes} días.`;
       }) || [];
   }
-
-
-
-
-
-  
-  
 }

@@ -63,7 +63,7 @@
           </button>
         </a>
       </li>
-      <li>
+      <li *ngIf="hasRole('ROLE_ADMIN')">
         <a routerLink="/devoluciones">
           <button class="w-full flex items-center gap-4 px-4 py-3 text-white bg-gray-800 rounded-lg hover:bg-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">

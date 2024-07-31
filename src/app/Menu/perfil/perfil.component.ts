@@ -13,72 +13,63 @@ import { CommonModule } from '@angular/common';
 })
 export default class PerfilComponent implements OnInit {
 
-  isEditMode: boolean = false; // Para controlar el modo de edición o creación
-  libros?: Libro[];
-  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: false };
-  modalSwitch:boolean=false;
+  isEditMode: boolean = false; // Estado para controlar el modo de edición o creación
+  libros?: Libro[]; // Lista de libros
+  newLibro: Libro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: false }; // Modelo de libro para crear o editar
+  modalSwitch: boolean = false; // Estado para el modal
 
   constructor(private libroService: ServiciosService) { }
 
   ngOnInit(): void {
-    this.cargarLibros();
+    this.cargarLibros(); // Cargar la lista de libros al inicializar el componente
   }
-openmoda(){
 
-  this.modalSwitch=true;
-}
-  cargarLibros() {
+  openmoda(): void {
+    this.modalSwitch = true; // Abre el modal
+  }
+
+  cargarLibros(): void {
     this.libroService.obtenerLibros().subscribe({
       next: (data: Libro[]) => this.libros = data,
-      error: (error: any) => console.error('Error al eliminar cliente:', error)
-
+      error: (error: any) => console.error('Error al cargar libros:', error)
     });
   }
 
   eliminarLibro(libroId: number) {
     this.libroService.eliminarLibro(libroId).subscribe({
-      next: () => {
-        this.cargarLibros();
-        this.openmoda();
-      },
-      error: (error: any) => {
-        console.error('Error al eliminar libro:', error);
-      }
+      next: () => this.cargarLibros(),
+      error: error => console.error('Error al eliminar libro:', error)
     });
   }
-  
 
-    
-  
   createLibro(): void {
     this.libroService.guardarLibro(this.newLibro).subscribe((libro: Libro) => {
-      this.libros?.push(libro);
-      this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
-            this.resetForm(); // Reiniciar el formulario después de crear un libro
-
+      this.libros?.push(libro); // Añade el nuevo libro a la lista
+      this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true }; // Reinicia el modelo
+      this.resetForm(); // Reinicia el formulario después de crear un libro
     });
   }
 
-  onSubmit(libroForm: NgForm) {
+  onSubmit(libroForm: NgForm): void {
     if (libroForm.valid) {
       if (this.isEditMode) {
-        this.actualizarLibro();
+        this.actualizarLibro(); // Actualiza el libro si está en modo edición
       } else {
-        this.createLibro();
+        this.createLibro(); // Crea un nuevo libro si no está en modo edición
       }
     } else {
-      this.markFormAsTouched(libroForm);
+      this.markFormAsTouched(libroForm); // Marca el formulario como tocado para mostrar errores
     }
   }
-  
+
   private markFormAsTouched(libroForm: NgForm): void {
     Object.keys(libroForm.controls).forEach(field => {
       const control = libroForm.controls[field];
-      control.markAsTouched({ onlySelf: true });
+      control.markAsTouched({ onlySelf: true }); // Marca cada control como tocado
     });
   }
 
-  actualizarLibro() {
+  actualizarLibro(): void {
     this.libroService.actualizarLibro(this.newLibro).subscribe({
       next: (libroActualizado: any) => {
         console.log('Libro actualizado:', libroActualizado);
@@ -89,17 +80,14 @@ openmoda(){
     });
   }
 
-  resetForm() {
-    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true };
+  resetForm(): void {
+    this.newLibro = { titulo: '', autor: '', descripcion: '', genero: '', editorial: '', portada: '', disponibilidad: true, reservado: true }; // Resetea el modelo del libro
     this.isEditMode = false; // Cambia al modo de creación
   }
 
-  seleccionarLibro(libro: Libro) {
+  seleccionarLibro(libro: Libro): void {
     this.newLibro = { ...libro }; // Clona el objeto para evitar mutaciones directas
     this.isEditMode = true; // Cambia al modo de edición
   }
-
-
-  
 
 }

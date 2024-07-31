@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OnInit} from '@angular/core';
+import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { Prestamo } from '../../Prestamo.module';
 import { PrestamoService } from '../../service/prestamo.service';
 import { ReservaService } from '../../service/reserva.service';
+
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -15,23 +16,21 @@ import { ReservaService } from '../../service/reserva.service';
   styleUrl: './inicio.component.scss'
 })
 export default class InicioComponent implements OnInit {
-  isModalOpen = false;
-  token: string | null = null;
-  decodedToken: any = null;
-  username: string = '';
-  roles: string[] = [];
-  pendingReturns: Prestamo[] = [];
-  prestamos: Prestamo[] = [];
-  reminders: string[] = [];
-
-  prestamoReminders: string[] = [];
-  reservaReminders: string[] = [];
+  isModalOpen = false; // Estado para controlar la visibilidad del modal
+  token: string | null = null; // Token de autenticación
+  decodedToken: any = null; // Token decodificado
+  username: string = ''; // Nombre de usuario
+  roles: string[] = []; // Roles del usuario
+  pendingReturns: Prestamo[] = []; // Lista de préstamos pendientes
+  prestamos: Prestamo[] = []; // Lista de préstamos activos
+  reminders: string[] = []; // Recordatorios generales
+  prestamoReminders: string[] = []; // Recordatorios de préstamos
+  reservaReminders: string[] = []; // Recordatorios de reservas
 
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
     private prestamoService: PrestamoService,
-
     private reservaService: ReservaService,
   ) {}
 
@@ -50,8 +49,8 @@ export default class InicioComponent implements OnInit {
         localStorage.setItem('token', this.token);
         this.authService.setSession(this.token);
         this.decodedToken = this.authService.decodeToken(this.token);
-        this.username = this.decodedToken.username; // Obtén el nombre de usuario
-        this.roles = this.decodedToken.roles; // Obtén los roles
+        this.username = this.decodedToken.username;
+        this.roles = this.decodedToken.roles;
         console.log(`Bienvenido ${this.username} - Rol: ${this.roles.join(', ')}`);
         
         // Obtener préstamos pendientes
@@ -68,26 +67,24 @@ export default class InicioComponent implements OnInit {
       }
     });
 
-    this.cargarRecordatorios();
+    this.cargarRecordatorios(); // Cargar recordatorios de préstamos y reservas
 
   }
 
-  
-
-  openModal(title: string, author: string, price: number, genre: string, publisher: string) {
+  openModal(title: string, author: string, price: number, genre: string, publisher: string): void {
     this.modalBook = { title, author, price: `${price}`, genre, publisher };
-    this.isModalOpen = true;
+    this.isModalOpen = true; // Abre el modal con la información del libro
   }
 
-  closeModal() {
-    this.isModalOpen = false;
+  closeModal(): void {
+    this.isModalOpen = false; // Cierra el modal
   }
 
   cargarPrestamosActivos(): void {
     this.prestamoService.obtenerPrestamosActivos().subscribe({
       next: (data: Prestamo[]) => {
         this.prestamos = data;
-        this.cargarRecordatorios();
+        this.cargarRecordatorios(); // Actualiza los recordatorios
       },
       error: (error) => {
         console.error('Error al cargar préstamos activos:', error);
