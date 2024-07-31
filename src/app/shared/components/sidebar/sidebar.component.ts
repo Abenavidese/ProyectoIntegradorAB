@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../auth.service';
 import { Router } from '@angular/router';
@@ -16,9 +16,28 @@ export class SidebarComponent implements OnInit {
   userRoles: string[] = [];
 
   constructor(private authService: AuthService, private router: Router) {}
+  menuOpen = false;
+  isDesktop = false;
 
+  // Listener para el evento de redimensionar la ventana
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkWindowSize();
+  }
+
+  // Método para verificar el tamaño de la ventana
+  checkWindowSize(): void {
+    // Definir el ancho de pantalla para determinar si es escritorio
+    this.isDesktop = window.innerWidth >= 1024; // por ejemplo, 1024px es el punto de quiebre para 'xl'
+  }
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
   ngOnInit(): void {
     this.userRoles = this.authService.getUserRoles();
+    this.checkWindowSize();
+
   }
 
   logout(): void {

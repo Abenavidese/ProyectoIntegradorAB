@@ -43,7 +43,7 @@ export class AuthService {
           username: decodedToken.sub,
           role: decodedToken.roles,
           password: '', // No guardamos la contraseña
-          email: '' // No tenemos el email en el token
+          email: '',// No tenemos el email en el token
         };
         this.userService.guardarUsuario(usuario); // Guardar el usuario
         return {
