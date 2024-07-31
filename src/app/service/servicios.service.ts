@@ -9,7 +9,7 @@ import { Reserva } from '../Reserva.module';
 })
 export class ServiciosService {
   // URL base para las solicitudes relacionadas con los servicios de la biblioteca
-  private apiUrl = 'http://localhost:8080/biblioteca/rs';
+  private apiUrl = 'http://192.168.146.129:8080/biblioteca(2)/rs';
 
   // Constructor con inyección de dependencia del servicio HttpClient
   constructor(private http: HttpClient) { }

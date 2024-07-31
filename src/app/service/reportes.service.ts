@@ -11,7 +11,7 @@ import { Prestamo } from '../Prestamo.module';
 })
 export class ReportesService {
   // URL base para los servicios de reportes
-  private baseUrl = 'http://localhost:8080/biblioteca/rs/reportes';
+  private baseUrl = 'http://192.168.146.129:8080/biblioteca(2)/rs/reportes';
 
   // BehaviorSubject para manejar el estado de los préstamos por usuario
   private prestamosPorUsuarioSource = new BehaviorSubject<{ [username: string]: number }>({});

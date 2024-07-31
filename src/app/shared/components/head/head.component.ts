@@ -52,7 +52,7 @@ export class HeadComponent {
   // Cierra la sesión del usuario y redirige a la página de login
   logout(): void {
     this.authService.logout();
-    window.location.href = 'http://localhost:8080/biblioteca/login.xhtml'; // Redirige a la página de login
+    window.location.href = 'http://192.168.146.129:8080/biblioteca(2)/login.xhtml'; // Redirige a la página de login
   }
 
   // Verifica si el usuario tiene un rol específico

@@ -24,7 +24,7 @@ export const RoleGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
     console.warn('Access denied. User does not have required roles:', expectedRoles); // Log denied access attempt
     
     // Redirect to login page if user does not have required roles
-    window.location.href = 'http://localhost:8080/biblioteca/login.xhtml';
+    window.location.href = 'http://192.168.146.129:8080/biblioteca(2)/login.xhtml';
     return false; // Deny access
   }
 };

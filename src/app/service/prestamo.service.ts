@@ -8,7 +8,7 @@ import { Libro } from '../Libro.module';
   providedIn: 'root'
 })
 export class PrestamoService {
-  private apiUrl = 'http://localhost:8080/biblioteca/rs/prestamos';
+  private apiUrl = 'http://192.168.146.129:8080/biblioteca(2)/rs/prestamos';
 
   constructor(private http: HttpClient) { }
 
@@ -34,7 +34,7 @@ export class PrestamoService {
    * @returns Un Observable con un array de objetos Libro.
    */
   obtenerLibrosDisponibles(): Observable<Libro[]> {
-    return this.http.get<Libro[]>('http://localhost:8080/biblioteca/rs/libros');
+    return this.http.get<Libro[]>('http://192.168.146.129:8080/biblioteca(2)/rs/libros');
   }
 
   /**

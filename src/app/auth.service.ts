@@ -16,8 +16,8 @@ export class AuthService {
   private _libroId: number | null = null;
   private disponibilidad: boolean | null = null;
 
-  private baseUrl = 'http://localhost:8080/library/api/auth'; // URL del servicio de autenticación
-  private baseUrlprest = 'http://localhost:8080/library/rs/prestamos'; // URL del servicio de préstamos
+  private baseUrl = 'http://192.168.146.129:8080/biblioteca(2)/api/auth'; // URL del servicio de autenticación
+  private baseUrlprest = 'http://192.168.146.129:8080/biblioteca(2)/rs/prestamos'; // URL del servicio de préstamos
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public currentUser: Observable<any> = this.currentUserSubject.asObservable();
   public loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);

@@ -9,7 +9,7 @@ import { Libro } from '../Libro.module';
 })
 export class ReservaService {
   // URL base para las solicitudes relacionadas con las reservas
-  private apiUrl = 'http://localhost:8080/biblioteca/rs/reservas';
+  private apiUrl = 'http://192.168.146.129:8080/biblioteca(2)/rs/reservas';
 
   // Constructor con inyección de dependencia del servicio HttpClient
   constructor(private http: HttpClient) { }
@@ -36,7 +36,7 @@ export class ReservaService {
    * @returns Un Observable que emite una lista de objetos Libro.
    */
   obtenerLibrosDisponibles(): Observable<Libro[]> {
-    return this.http.get<Libro[]>('http://localhost:8080/biblioteca/rs/libros');
+    return this.http.get<Libro[]>('http://192.168.146.129:8080/biblioteca(2)/rs/libros');
   }
 
   /**

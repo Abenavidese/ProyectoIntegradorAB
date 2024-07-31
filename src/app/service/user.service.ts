@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
   // URL base para las solicitudes relacionadas con la autenticación y los usuarios
-  private apiUrl = 'http://localhost:8080/biblioteca/rs/auth';
+  private apiUrl = 'http://192.168.146.129:8080/biblioteca(2)/rs/auth';
 
   // Constructor con inyección de dependencia del servicio HttpClient
   constructor(private http: HttpClient) { }
